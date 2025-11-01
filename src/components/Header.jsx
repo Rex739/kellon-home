@@ -51,8 +51,8 @@ const Header = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <button className="btn-secondary">
-              Download App
+            <button className="btn-secondary" onClick={openWaitlist}>
+              Join Waitlist
             </button>
             <button className="btn-primary" onClick={openWaitlist}>
               Join Waitlist
@@ -101,8 +101,8 @@ const Header = () => {
                 Contact
               </a>
               <div className="flex flex-col space-y-2 pt-4">
-                <button className="btn-secondary">
-                  Download App
+                <button className="btn-secondary" onClick={openWaitlist}>
+                  Join Waitlist
                 </button>
                 <button className="btn-primary" onClick={openWaitlist}>
                   Join Waitlist

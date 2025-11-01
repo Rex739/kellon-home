@@ -1,7 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CheckCircle, Users, Award, Rocket } from 'lucide-react'
+import WaitlistModal from './WaitlistModal'
 
 const About = () => {
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
+
+  const openWaitlist = () => {
+    setIsWaitlistOpen(true)
+  }
+
+  const closeWaitlist = () => {
+    setIsWaitlistOpen(false)
+  }
+
   const stats = [
     { number: "2024", label: "Founded" },
     { number: "25K+", label: "Beta Users" },
@@ -76,8 +87,8 @@ const About = () => {
                 <p className="text-gray-300 mb-6">
                   Be part of the financial future with Kellon's innovative crypto solutions.
                 </p>
-                <button className="btn-primary w-full">
-                  Download Kellon
+                <button className="btn-primary w-full" onClick={openWaitlist}>
+                  Join Waitlist
                 </button>
               </div>
             </div>
@@ -113,6 +124,9 @@ const About = () => {
           })}
         </div>
       </div>
+
+      {/* Waitlist Modal */}
+      <WaitlistModal isOpen={isWaitlistOpen} onClose={closeWaitlist} />
     </section>
   )
 }

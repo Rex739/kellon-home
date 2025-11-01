@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { 
   Wallet, 
   Twitter, 
@@ -9,8 +9,19 @@ import {
   Phone,
   ArrowRight
 } from 'lucide-react'
+import WaitlistModal from './WaitlistModal'
 
 const Footer = () => {
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
+
+  const openWaitlist = () => {
+    setIsWaitlistOpen(true)
+  }
+
+  const closeWaitlist = () => {
+    setIsWaitlistOpen(false)
+  }
+
   const footerLinks = {
     product: [
       { name: "Features", href: "#features" },
@@ -52,10 +63,10 @@ const Footer = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <h3 className="text-2xl font-bold text-white mb-2">
-                Stay Updated
+                Join Our Waitlist
               </h3>
               <p className="text-gray-400">
-                Get the latest news and updates about Kellon directly in your inbox.
+                Be the first to know when Kellon launches and get early access to revolutionary crypto payments.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -63,9 +74,11 @@ const Footer = () => {
                 type="email"
                 placeholder="Enter your email"
                 className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-primary-500 transition-colors"
+                readOnly
+                onClick={openWaitlist}
               />
-              <button className="btn-primary flex items-center justify-center">
-                Subscribe
+              <button className="btn-primary flex items-center justify-center" onClick={openWaitlist}>
+                Join Waitlist
                 <ArrowRight className="ml-2 w-4 h-4" />
               </button>
             </div>
@@ -202,6 +215,9 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      {/* Waitlist Modal */}
+      <WaitlistModal isOpen={isWaitlistOpen} onClose={closeWaitlist} />
     </footer>
   )
 }
