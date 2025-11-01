@@ -61,7 +61,7 @@ const About = () => {
             <p className="text-gray-300 text-lg mb-8 leading-relaxed">
               Currently in development, we're creating more than just a mobile wallet – we're designing 
               a comprehensive financial ecosystem that will combine borderless payments, global investment 
-              opportunities, and seamless financial management in one unified platform. Join our waitlist to 
+              opportunities, and seamless financial management in one unified application. Join our waitlist to 
               be among the first to experience the future of digital finance.
             </p>
             
