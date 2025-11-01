@@ -20,7 +20,7 @@ const Hero = () => {
           {/* Badge */}
           <div className="inline-flex items-center px-4 py-2 bg-primary-500/10 border border-primary-500/20 rounded-full mb-8">
             <Shield className="w-4 h-4 text-primary-400 mr-2" />
-            <span className="text-primary-400 text-sm font-medium">Secure & Trusted Crypto Wallet</span>
+            <span className="text-primary-400 text-sm font-medium">Borderless Financial Platform</span>
           </div>
 
           {/* Main Heading */}
@@ -33,7 +33,7 @@ const Hero = () => {
           {/* Subheading */}
           <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
             Kellon Mobile breaks down financial barriers with seamless cross-border payments, 
-            global investment opportunities, and comprehensive crypto management - all in one powerful wallet.
+            global investment opportunities, and comprehensive financial management - all in one powerful platform.
           </p>
 
           {/* CTA Buttons */}

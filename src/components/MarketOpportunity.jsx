@@ -5,21 +5,21 @@ const MarketOpportunity = () => {
   const marketStats = [
     {
       icon: TrendingUp,
-      number: "$2.3T",
-      label: "Global Crypto Market Cap",
-      description: "Growing at 85% CAGR"
+      number: "$45T",
+      label: "Cross-Border Payment Market",
+      description: "Growing at 15% CAGR"
     },
     {
       icon: Users,
-      number: "425M",
-      label: "Global Crypto Users",
-      description: "Expected to reach 1B by 2025"
+      number: "1.7B",
+      label: "Unbanked Population",
+      description: "Seeking financial inclusion"
     },
     {
       icon: Globe,
-      number: "18K+",
-      label: "Cryptocurrencies",
-      description: "Across 400+ exchanges"
+      number: "195",
+      label: "Countries Worldwide",
+      description: "Needing borderless solutions"
     }
   ]
 
@@ -32,7 +32,7 @@ const MarketOpportunity = () => {
     {
       icon: Zap,
       title: "Lightning Speed",
-      description: "Sub-second transactions with our optimized blockchain infrastructure"
+      description: "Sub-second transactions with our optimized financial infrastructure"
     },
     {
       icon: Award,
@@ -51,8 +51,8 @@ const MarketOpportunity = () => {
             <span className="gradient-text"> Opportunity</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
-            The cryptocurrency market is experiencing unprecedented growth, creating enormous opportunities 
-            for innovative solutions like Kellon.
+            The global financial system is ripe for disruption, with billions seeking borderless payment 
+            solutions and financial freedom through innovative platforms like Kellon.
           </p>
         </div>
 
@@ -79,7 +79,7 @@ const MarketOpportunity = () => {
           </h3>
           <p className="text-gray-300 max-w-2xl mx-auto">
             Kellon's unique combination of security, speed, and user experience sets us apart 
-            in the crowded crypto wallet space.
+            in the evolving borderless financial services space.
           </p>
         </div>
 

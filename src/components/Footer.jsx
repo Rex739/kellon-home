@@ -66,7 +66,7 @@ const Footer = () => {
                 Join Our Waitlist
               </h3>
               <p className="text-gray-400">
-                Be the first to know when Kellon launches and get early access to revolutionary crypto payments.
+                Be the first to know when Kellon launches and get early access to borderless financial services.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -100,8 +100,8 @@ const Footer = () => {
               <span className="text-2xl font-bold text-white">Kellon</span>
             </div>
             <p className="text-gray-400 mb-6 max-w-sm">
-              Your trusted partner in the cryptocurrency ecosystem. 
-              Secure, fast, and user-friendly crypto wallet for everyone.
+              Your gateway to borderless payments and financial freedom. 
+              Breaking barriers to create a world without financial limits.
             </p>
             
             {/* Contact Info */}
