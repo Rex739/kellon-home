@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { X, Mail, User, ArrowRight } from 'lucide-react'
+import { waitlistService } from '../services/supabase'
 
 const WaitlistModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ const WaitlistModal = ({ isOpen, onClose }) => {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState('')
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -20,32 +22,35 @@ const WaitlistModal = ({ isOpen, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setError('')
 
     try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent('Kellon Waitlist Signup')
-      const body = encodeURIComponent(`
-Name: ${formData.name}
-Email: ${formData.email}
-Date: ${new Date().toLocaleDateString()}
+      // Check if email already exists
+      const emailExists = await waitlistService.checkEmailExists(formData.email)
+      if (emailExists) {
+        setError('This email is already on our waitlist!')
+        return
+      }
 
-Please add me to the Kellon waitlist!
-      `)
-      
-      const mailtoLink = `mailto:waitlist@kellon.xyz?subject=${subject}&body=${body}`
-      window.location.href = mailtoLink
+      // Add to waitlist via Supabase
+      await waitlistService.addSignup({
+        name: formData.name,
+        email: formData.email
+      })
       
       setIsSubmitted(true)
       
-      // Reset form after 2 seconds
+      // Reset form after 3 seconds
       setTimeout(() => {
         setFormData({ name: '', email: '' })
         setIsSubmitted(false)
+        setError('')
         onClose()
-      }, 2000)
+      }, 3000)
       
     } catch (error) {
       console.error('Error submitting waitlist form:', error)
+      setError('Unable to join waitlist. Please try again or contact support.')
     } finally {
       setIsSubmitting(false)
     }
@@ -123,6 +128,12 @@ Please add me to the Kellon waitlist!
                 </div>
               </div>
 
+              {error && (
+                <div className="text-red-400 text-sm text-center py-2">
+                  {error}
+                </div>
+              )}
+
               <button
                 type="submit"
                 disabled={isSubmitting || !formData.name || !formData.email}
@@ -155,7 +166,7 @@ Please add me to the Kellon waitlist!
               You're on the list!
             </h2>
             <p className="text-gray-300">
-              Thank you for joining our waitlist. We'll be in touch soon with updates!
+              Thank you for joining our waitlist! We'll notify you as soon as Kellon launches.
             </p>
           </div>
         )}
