@@ -1,7 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ArrowRight, Play, Shield, Zap, Globe } from 'lucide-react'
+import WaitlistModal from './WaitlistModal'
 
 const Hero = () => {
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
+
+  const openWaitlist = () => {
+    setIsWaitlistOpen(true)
+  }
+
+  const closeWaitlist = () => {
+    setIsWaitlistOpen(false)
+  }
+
   return (
     <section className="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -27,8 +38,8 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <button className="btn-primary text-lg px-8 py-4 flex items-center">
-              Get Started Now
+            <button className="btn-primary text-lg px-8 py-4 flex items-center" onClick={openWaitlist}>
+              Join Waitlist
               <ArrowRight className="ml-2 w-5 h-5" />
             </button>
             <button className="btn-secondary text-lg px-8 py-4 flex items-center">
@@ -75,6 +86,9 @@ const Hero = () => {
         <div className="absolute top-1/3 right-10 w-16 h-16 bg-accent-500/20 rounded-full blur-xl animate-float" style={{animationDelay: '2s'}}></div>
         <div className="absolute bottom-1/4 left-1/4 w-12 h-12 bg-primary-400/20 rounded-full blur-xl animate-float" style={{animationDelay: '4s'}}></div>
       </div>
+
+      {/* Waitlist Modal */}
+      <WaitlistModal isOpen={isWaitlistOpen} onClose={closeWaitlist} />
     </section>
   )
 }

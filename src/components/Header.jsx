@@ -1,11 +1,22 @@
 import React, { useState } from 'react'
 import { Menu, X, Wallet } from 'lucide-react'
+import WaitlistModal from './WaitlistModal'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
+  }
+
+  const openWaitlist = () => {
+    setIsWaitlistOpen(true)
+    setIsMenuOpen(false) // Close mobile menu if open
+  }
+
+  const closeWaitlist = () => {
+    setIsWaitlistOpen(false)
   }
 
   return (
@@ -43,8 +54,8 @@ const Header = () => {
             <button className="btn-secondary">
               Download App
             </button>
-            <button className="btn-primary">
-              Get Started
+            <button className="btn-primary" onClick={openWaitlist}>
+              Join Waitlist
             </button>
           </div>
 
@@ -93,14 +104,17 @@ const Header = () => {
                 <button className="btn-secondary">
                   Download App
                 </button>
-                <button className="btn-primary">
-                  Get Started
+                <button className="btn-primary" onClick={openWaitlist}>
+                  Join Waitlist
                 </button>
               </div>
             </nav>
           </div>
         )}
       </div>
+
+      {/* Waitlist Modal */}
+      <WaitlistModal isOpen={isWaitlistOpen} onClose={closeWaitlist} />
     </header>
   )
 }
