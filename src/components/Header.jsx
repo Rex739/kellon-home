@@ -1,22 +1,11 @@
 import React, { useState } from 'react'
 import { Menu, X, Wallet } from 'lucide-react'
-import WaitlistModal from './WaitlistModal'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
-  }
-
-  const openWaitlist = () => {
-    setIsWaitlistOpen(true)
-    setIsMenuOpen(false) // Close mobile menu if open
-  }
-
-  const closeWaitlist = () => {
-    setIsWaitlistOpen(false)
   }
 
   return (
@@ -33,7 +22,7 @@ const Header = () => {
             <span className="text-xl md:text-2xl font-bold text-white">Kellon</span>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - moved to the right */}
           <nav className="hidden md:flex items-center space-x-8">
             <a href="#features" className="text-gray-300 hover:text-white transition-colors">
               Features
@@ -48,16 +37,6 @@ const Header = () => {
               Contact
             </a>
           </nav>
-
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <button className="btn-secondary" onClick={openWaitlist}>
-              Join Waitlist
-            </button>
-            <button className="btn-primary" onClick={openWaitlist}>
-              Join Waitlist
-            </button>
-          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -100,21 +79,10 @@ const Header = () => {
               >
                 Contact
               </a>
-              <div className="flex flex-col space-y-2 pt-4">
-                <button className="btn-secondary" onClick={openWaitlist}>
-                  Join Waitlist
-                </button>
-                <button className="btn-primary" onClick={openWaitlist}>
-                  Join Waitlist
-                </button>
-              </div>
             </nav>
           </div>
         )}
       </div>
-
-      {/* Waitlist Modal */}
-      <WaitlistModal isOpen={isWaitlistOpen} onClose={closeWaitlist} />
     </header>
   )
 }
