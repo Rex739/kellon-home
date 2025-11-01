@@ -33,32 +33,7 @@ const Traction = () => {
     }
   ]
 
-  const roadmap = [
-    {
-      quarter: "Q4 2024",
-      milestone: "MVP Development",
-      status: "completed",
-      description: "Core platform development and security audits"
-    },
-    {
-      quarter: "Q1 2025",
-      milestone: "Beta Testing",
-      status: "current",
-      description: "Closed beta with select users and partners"
-    },
-    {
-      quarter: "Q2 2025",
-      milestone: "Public Launch",
-      status: "upcoming",
-      description: "Full platform launch with core features"
-    },
-    {
-      quarter: "Q3 2025",
-      milestone: "Global Expansion",
-      status: "upcoming",
-      description: "DeFi integration and market expansion"
-    }
-  ]
+
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8">
@@ -74,7 +49,7 @@ const Traction = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {metrics.map((item, index) => {
             const IconComponent = item.icon
             return (
@@ -88,43 +63,6 @@ const Traction = () => {
               </div>
             )
           })}
-        </div>
-
-        {/* Roadmap */}
-        <div className="text-center mb-12">
-          <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Product Roadmap
-          </h3>
-          <p className="text-gray-300 max-w-2xl mx-auto">
-            Our strategic roadmap focuses on continuous innovation and market expansion.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {roadmap.map((item, index) => (
-            <div key={index} className="relative">
-              <div className={`card ${item.status === 'completed' ? 'border-green-500/50 bg-green-900/10' : 
-                item.status === 'current' ? 'border-primary-500/50 bg-primary-900/10' : 
-                'border-gray-500/30 bg-gray-900/10'}`}>
-                
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium text-gray-400">{item.quarter}</span>
-                  <div className={`w-3 h-3 rounded-full ${
-                    item.status === 'completed' ? 'bg-green-500' : 
-                    item.status === 'current' ? 'bg-primary-500' : 
-                    'bg-gray-500'
-                  }`}></div>
-                </div>
-                
-                <h4 className="text-lg font-semibold text-white mb-2">
-                  {item.milestone}
-                </h4>
-                <p className="text-gray-400 text-sm">
-                  {item.description}
-                </p>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </section>
