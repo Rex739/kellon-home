@@ -108,15 +108,15 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center justify-center text-gray-400">
                 <Mail className="w-4 h-4 mr-3" />
-                <span>support@kellon.io</span>
+                <span>support@kellon.xyz</span>
               </div>
               <div className="flex items-center justify-center text-gray-400">
                 <Phone className="w-4 h-4 mr-3" />
-                <span>+1 (555) 123-4567</span>
+                <span>+234 (812)</span>
               </div>
               <div className="flex items-center justify-center text-gray-400">
                 <MapPin className="w-4 h-4 mr-3" />
-                <span>San Francisco, CA</span>
+                <span>Lagos, NG</span>
               </div>
             </div>
           </div>
@@ -128,7 +128,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2024 Kellon. All rights reserved.
+              © 2025 Kellon. All rights reserved.
             </div>
             
             {/* Social Links */}
