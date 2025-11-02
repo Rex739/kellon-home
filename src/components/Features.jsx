@@ -27,8 +27,8 @@ const Features = () => {
     },
     {
       icon: Send,
-      title: "Global Crypto Transfers",
-      description: "Send and receive cryptocurrencies across any border instantly with zero geographical restrictions and minimal fees.",
+      title: "Convert Crypto to Fiat",
+      description: "Convert and send cryptocurrencies to fiat currency across any border instantly - enabling seamless crypto-to-cash transfers with minimal fees.",
       color: "text-accent-500"
     },
     {
