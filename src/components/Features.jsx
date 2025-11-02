@@ -33,8 +33,8 @@ const Features = () => {
     },
     {
       icon: CreditCard,
-      title: "Global Investment Cashout",
-      description: "Convert your global crypto investments back to local currency and withdraw to any supported bank worldwide.",
+      title: "Global Investment",
+      description: "Access real-world asset investments including stocks (NGX and global exchanges), real estate, commodities, and tokenized assets - all from your mobile app.",
       color: "text-primary-500"
     },
     {
