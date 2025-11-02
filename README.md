@@ -1,6 +1,6 @@
 # Kellon - Crypto Wallet Landing Page
 
-A modern, responsive React landing page for Kellon crypto wallet built with Vite and Tailwind CSS.
+A modern, responsive React landing page for Kellon built with Vite and Tailwind CSS.
 
 ## ✨ Features
 
