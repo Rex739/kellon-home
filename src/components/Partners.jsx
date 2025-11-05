@@ -71,22 +71,22 @@ const Partners = () => {
         </div>
 
         {/* Partners Carousel - Enhanced Styling */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-white/5 via-white/10 to-white/5 border border-white/10 backdrop-blur-xl">
-          <div className="flex animate-scroll py-8 pl-8">
+        <div className="relative overflow-x-auto overflow-y-hidden rounded-2xl bg-gradient-to-r from-white/5 via-white/10 to-white/5 border border-white/10 backdrop-blur-xl scrollbar-hide">
+          <div className="flex animate-scroll py-6 px-4 sm:py-8 sm:pl-8" style={{ width: 'max-content' }}>
             {/* First set of partners */}
             {partners.map((partner, index) => (
               <div
                 key={`first-${index}`}
-                className="flex-shrink-0 mx-8 group cursor-pointer"
+                className="flex-shrink-0 mx-2 sm:mx-6 group cursor-pointer"
               >
-                <div className="w-40 h-24 bg-gradient-to-br from-white/10 via-white/5 to-transparent rounded-xl flex items-center justify-center p-4 transition-all duration-500 group-hover:from-white/20 group-hover:via-white/15 group-hover:to-white/5 group-hover:scale-110 group-hover:-translate-y-2 border border-white/10 group-hover:border-white/30 shadow-lg group-hover:shadow-2xl group-hover:shadow-primary-500/20">
+                <div className="w-24 h-16 sm:w-32 sm:h-20 bg-gradient-to-br from-white/10 via-white/5 to-transparent rounded-lg sm:rounded-xl flex items-center justify-center p-2 sm:p-3 transition-all duration-500 group-hover:from-white/20 group-hover:via-white/15 group-hover:to-white/5 group-hover:scale-110 group-hover:-translate-y-2 border border-white/10 group-hover:border-white/30 shadow-lg group-hover:shadow-2xl group-hover:shadow-primary-500/20">
                   {partner.logo ? (
                     <div className="flex flex-col items-center">
                       <img 
                         src={partner.logo} 
                         alt={`${partner.name} logo`}
-                        className="max-h-10 w-auto object-contain opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110"
-                        style={{ minWidth: '60px', minHeight: '20px' }}
+                        className="max-h-6 sm:max-h-8 w-auto object-contain opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110"
+                        style={{ minWidth: '32px', minHeight: '12px' }}
                         onError={(e) => {
                           console.log(`Failed to load logo for ${partner.name}:`, e.target.src);
                           e.target.style.display = 'none';
@@ -96,7 +96,7 @@ const Partners = () => {
                     </div>
                   ) : null}
                   <div className={`flex flex-col items-center justify-center transition-all duration-500 ${partner.logo ? 'hidden' : 'flex'}`}>
-                    <span className="text-white text-sm font-bold text-center leading-tight group-hover:text-primary-300 px-2">
+                    <span className="text-white text-xs sm:text-sm font-bold text-center leading-tight group-hover:text-primary-300 px-1 sm:px-2">
                       {partner.name}
                     </span>
                   </div>
@@ -108,16 +108,16 @@ const Partners = () => {
             {partners.map((partner, index) => (
               <div
                 key={`second-${index}`}
-                className="flex-shrink-0 mx-8 group cursor-pointer"
+                className="flex-shrink-0 mx-2 sm:mx-6 group cursor-pointer"
               >
-                <div className="w-40 h-24 bg-gradient-to-br from-white/10 via-white/5 to-transparent rounded-xl flex items-center justify-center p-4 transition-all duration-500 group-hover:from-white/20 group-hover:via-white/15 group-hover:to-white/5 group-hover:scale-110 group-hover:-translate-y-2 border border-white/10 group-hover:border-white/30 shadow-lg group-hover:shadow-2xl group-hover:shadow-primary-500/20">
+                <div className="w-24 h-16 sm:w-32 sm:h-20 bg-gradient-to-br from-white/10 via-white/5 to-transparent rounded-lg sm:rounded-xl flex items-center justify-center p-2 sm:p-3 transition-all duration-500 group-hover:from-white/20 group-hover:via-white/15 group-hover:to-white/5 group-hover:scale-110 group-hover:-translate-y-2 border border-white/10 group-hover:border-white/30 shadow-lg group-hover:shadow-2xl group-hover:shadow-primary-500/20">
                   {partner.logo ? (
                     <div className="flex flex-col items-center">
                       <img 
                         src={partner.logo} 
                         alt={`${partner.name} logo`}
-                        className="max-h-10 w-auto object-contain opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110"
-                        style={{ minWidth: '60px', minHeight: '20px' }}
+                        className="max-h-6 sm:max-h-8 w-auto object-contain opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110"
+                        style={{ minWidth: '32px', minHeight: '12px' }}
                         onError={(e) => {
                           console.log(`Failed to load logo for ${partner.name}:`, e.target.src);
                           e.target.style.display = 'none';
@@ -127,7 +127,7 @@ const Partners = () => {
                     </div>
                   ) : null}
                   <div className={`flex flex-col items-center justify-center transition-all duration-500 ${partner.logo ? 'hidden' : 'flex'}`}>
-                    <span className="text-white text-sm font-bold text-center leading-tight group-hover:text-primary-300 px-2">
+                    <span className="text-white text-xs sm:text-sm font-bold text-center leading-tight group-hover:text-primary-300 px-1 sm:px-2">
                       {partner.name}
                     </span>
                   </div>
@@ -137,8 +137,8 @@ const Partners = () => {
           </div>
 
           {/* Enhanced gradient overlays with glow effect */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-primary-900 via-primary-900/80 to-transparent pointer-events-none z-10"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-primary-900 via-primary-900/80 to-transparent pointer-events-none z-10"></div>
+          <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-r from-primary-900 via-primary-900/60 to-transparent pointer-events-none z-10"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-l from-primary-900 via-primary-900/60 to-transparent pointer-events-none z-10"></div>
           
           {/* Inner glow effect */}
           <div className="absolute inset-0 rounded-2xl shadow-inner pointer-events-none"></div>

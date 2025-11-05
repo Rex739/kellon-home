@@ -41,11 +41,34 @@
 }
 
 .animate-scroll {
-  animation: scroll 45s linear infinite;
+  animation: scroll 30s linear infinite;
 }
 
-.animate-scroll:hover {
+.animate-scroll:hover,
+.animate-scroll:focus,
+.animate-scroll:active {
   animation-play-state: paused;
+}
+
+/* Pause animation on touch/scroll interaction */
+@media (hover: none) and (pointer: coarse) {
+  .animate-scroll:focus-within {
+    animation-play-state: paused;
+  }
+}
+
+/* Hide scrollbar but allow scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+/* Smooth scrolling */
+.scrollbar-hide {
+  scroll-behavior: smooth;
 }
 
 /* Custom scrollbar */
