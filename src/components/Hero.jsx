@@ -1,16 +1,30 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { ArrowRight, Play, Shield, Zap, Globe } from 'lucide-react'
-import WaitlistModal from './WaitlistModal'
 
 const Hero = () => {
-  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
-
-  const openWaitlist = () => {
-    setIsWaitlistOpen(true)
+  const scrollToWaitlist = () => {
+    const footerElement = document.querySelector('footer')
+    if (footerElement) {
+      footerElement.scrollIntoView({ behavior: 'smooth' })
+      // Focus on the email input after scrolling
+      setTimeout(() => {
+        const emailInput = footerElement.querySelector('input[type="email"]')
+        if (emailInput) {
+          emailInput.focus()
+        }
+      }, 500)
+    }
   }
 
-  const closeWaitlist = () => {
-    setIsWaitlistOpen(false)
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value)
+    setError('')
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleDirectSubmit()
+    }
   }
 
   return (
@@ -36,12 +50,19 @@ const Hero = () => {
             global investment opportunities, and comprehensive financial management - all in one powerful app.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <button className="btn-primary text-lg px-8 py-4 flex items-center" onClick={openWaitlist}>
+          {/* CTA Section */}
+          <div className="max-w-md mx-auto mb-8">
+            <button 
+              className="btn-primary px-8 py-4 text-lg flex items-center justify-center w-full sm:w-auto mx-auto" 
+              onClick={scrollToWaitlist}
+            >
               Join Waitlist
               <ArrowRight className="ml-2 w-5 h-5" />
             </button>
+          </div>
+
+          {/* Secondary CTA */}
+          <div className="flex justify-center mb-12">
             <button className="btn-secondary text-lg px-8 py-4 flex items-center">
               <Play className="mr-2 w-5 h-5" />
               Watch Demo
@@ -86,9 +107,6 @@ const Hero = () => {
         <div className="absolute top-1/3 right-10 w-16 h-16 bg-accent-500/20 rounded-full blur-xl animate-float" style={{animationDelay: '2s'}}></div>
         <div className="absolute bottom-1/4 left-1/4 w-12 h-12 bg-primary-400/20 rounded-full blur-xl animate-float" style={{animationDelay: '4s'}}></div>
       </div>
-
-      {/* Waitlist Modal */}
-      <WaitlistModal isOpen={isWaitlistOpen} onClose={closeWaitlist} />
     </section>
   )
 }

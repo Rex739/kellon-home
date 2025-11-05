@@ -1,16 +1,19 @@
-import React, { useState } from 'react'
-import { CheckCircle, Users, Award, Rocket } from 'lucide-react'
-import WaitlistModal from './WaitlistModal'
+import React from 'react'
+import { CheckCircle, Users, Award, Rocket, ArrowRight } from 'lucide-react'
 
 const About = () => {
-  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
-
-  const openWaitlist = () => {
-    setIsWaitlistOpen(true)
-  }
-
-  const closeWaitlist = () => {
-    setIsWaitlistOpen(false)
+  const scrollToWaitlist = () => {
+    const footerElement = document.querySelector('footer')
+    if (footerElement) {
+      footerElement.scrollIntoView({ behavior: 'smooth' })
+      // Focus on the email input after scrolling
+      setTimeout(() => {
+        const emailInput = footerElement.querySelector('input[type="email"]')
+        if (emailInput) {
+          emailInput.focus()
+        }
+      }, 500)
+    }
   }
 
   const stats = [
@@ -89,8 +92,12 @@ const About = () => {
                 <p className="text-gray-300 mb-6">
                   Be among the first to experience the future of borderless financial services.
                 </p>
-                <button className="btn-primary w-full" onClick={openWaitlist}>
+                <button 
+                  className="btn-primary w-full flex items-center justify-center" 
+                  onClick={scrollToWaitlist}
+                >
                   Join Waitlist
+                  <ArrowRight className="ml-2 w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -126,9 +133,6 @@ const About = () => {
           })}
         </div>
       </div>
-
-      {/* Waitlist Modal */}
-      <WaitlistModal isOpen={isWaitlistOpen} onClose={closeWaitlist} />
     </section>
   )
 }

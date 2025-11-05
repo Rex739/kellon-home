@@ -35,7 +35,7 @@ export const waitlistService = {
       const { data: result, error } = await supabase
         .from('waitlist')
         .insert({
-          name: data.name,
+          name: data.name || 'Website User',
           email: data.email
         })
         .select()

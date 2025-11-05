@@ -7,19 +7,71 @@ import {
   Mail, 
   MapPin, 
   Phone,
-  ArrowRight
+  ArrowRight,
+  Check
 } from 'lucide-react'
-import WaitlistModal from './WaitlistModal'
+import SuccessModal from './SuccessModal'
+import { waitlistService } from '../services/supabase'
 
 const Footer = () => {
-  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
+  const [email, setEmail] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [error, setError] = useState('')
 
-  const openWaitlist = () => {
-    setIsWaitlistOpen(true)
+
+
+  const handleDirectSubmit = async () => {
+    if (!email || !email.includes('@')) {
+      setError('Please enter a valid email address')
+      return
+    }
+
+    setIsSubmitting(true)
+    setError('')
+
+    try {
+      // Check if email already exists
+      const emailExists = await waitlistService.checkEmailExists(email)
+      if (emailExists) {
+        setError('This email is already on our waitlist!')
+        setIsSubmitting(false)
+        return
+      }
+
+      // Add to waitlist with email only (no name required)
+      await waitlistService.addSignup({
+        name: 'Waitlist User', // Default name since we're not collecting it
+        email: email
+      })
+      
+      setShowSuccessModal(true)
+      setEmail('')
+      
+    } catch (error) {
+      console.error('Error submitting waitlist form:', error)
+      
+      if (error.message.includes('duplicate key') || error.message.includes('unique constraint')) {
+        setError('This email is already on our waitlist!')
+      } else if (error.message.includes('Database error')) {
+        setError('Database temporarily unavailable. Please email contact@kellon.xyz')
+      } else {
+        setError('Unable to join waitlist. Please try again or email contact@kellon.xyz')
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
-  const closeWaitlist = () => {
-    setIsWaitlistOpen(false)
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value)
+    setError('') // Clear error when user types
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleDirectSubmit()
+    }
   }
 
   const footerLinks = {
@@ -73,15 +125,35 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
+                value={email}
+                onChange={handleEmailChange}
+                onKeyPress={handleKeyPress}
                 className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-primary-500 transition-colors"
-                readOnly
-                onClick={openWaitlist}
+                disabled={isSubmitting}
               />
-              <button className="btn-primary flex items-center justify-center" onClick={openWaitlist}>
-                Join Waitlist
-                <ArrowRight className="ml-2 w-4 h-4" />
+              <button 
+                className="btn-primary flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed" 
+                onClick={handleDirectSubmit}
+                disabled={isSubmitting || !email}
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Joining...
+                  </>
+                ) : (
+                  <>
+                    Join Waitlist
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </>
+                )}
               </button>
             </div>
+            {error && (
+              <div className="text-red-400 text-sm mt-2">
+                {error}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -151,8 +223,12 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Waitlist Modal */}
-      <WaitlistModal isOpen={isWaitlistOpen} onClose={closeWaitlist} />
+      {/* Success Modal */}
+      <SuccessModal 
+        isOpen={showSuccessModal} 
+        onClose={() => setShowSuccessModal(false)}
+        message="Thanks for joining our waitlist!"
+      />
     </footer>
   )
 }
