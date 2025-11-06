@@ -182,14 +182,6 @@ const Footer = () => {
                 <Mail className="w-4 h-4 mr-3" />
                 <span>contact@kellon.xyz</span>
               </div>
-              <div className="flex items-center justify-center text-gray-400">
-                <Phone className="w-4 h-4 mr-3" />
-                <span>+1 (333) 456 7890</span>
-              </div>
-              <div className="flex items-center justify-center text-gray-400">
-                <MapPin className="w-4 h-4 mr-3" />
-                <span></span>
-              </div>
             </div>
           </div>
         </div>

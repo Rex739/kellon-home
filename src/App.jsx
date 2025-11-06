@@ -14,7 +14,7 @@ function App() {
       <Header />
       <main>
         <Hero />
-        <Partners />
+        {/* <Partners /> */}
         <Features />
         <MarketOpportunity />
         <Traction />
