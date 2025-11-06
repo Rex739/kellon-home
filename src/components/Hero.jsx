@@ -39,14 +39,14 @@ const Hero = () => {
 
           {/* Main Heading */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            Borderless Payments.
-            <span className="gradient-text block">Toknized Assets.</span>
-            <span className="text-white block">Global Investments.</span>
+            Borderless Payments
+            <span className="gradient-text block">Toknized Assets</span>
+            <span className="text-white block">Global Investments</span>
           </h1>
 
           {/* Subheading */}
           <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Kellon Mobile empowers you with a non-custodial wallet for borderless payments, tokenized asset management, and global investments - all in one secure, intuitive app.
+            Kellon Mobile empowers you with a non-custodial wallet for borderless payments, tokenized asset management, and global investments - all in one secure, intuitive app
           </p>
 
           {/* CTA Section */}
