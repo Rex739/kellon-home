@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { 
   Wallet, 
   Twitter, 
@@ -19,6 +19,7 @@ const Footer = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
 
 
@@ -73,6 +74,10 @@ const Footer = () => {
     if (e.key === 'Enter') {
       handleDirectSubmit()
     }
+  }
+
+  const handleLogoClick = () => {
+    navigate('/')
   }
 
   const footerLinks = {
@@ -164,7 +169,10 @@ const Footer = () => {
         <div className="flex justify-center">
           {/* Brand Column */}
           <div className="text-center">
-            <div className="flex items-center justify-center space-x-3 mb-4">
+            <div 
+              className="flex items-center justify-center space-x-3 mb-4 cursor-pointer hover:opacity-80 transition-opacity"
+              onClick={handleLogoClick}
+            >
               <img 
                 src="/logo.png" 
                 alt="Kellon Logo" 

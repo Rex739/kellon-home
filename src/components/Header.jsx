@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
 import { Menu, X, Wallet } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const navigate = useNavigate()
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
+  }
+
+  const handleLogoClick = () => {
+    navigate('/')
   }
 
   return (
@@ -13,7 +19,10 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <div 
+            className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={handleLogoClick}
+          >
             <img 
               src="/logo.png" 
               alt="Kellon Logo" 
