@@ -1,18 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ArrowLeft } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import Header from './Header'
+import Footer from './Footer'
 
-const Disclaimer = ({ onBack }) => {
+const Disclaimer = () => {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-900 via-accent-900 to-primary-800 py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Back Button */}
-        <button 
-          onClick={onBack}
-          className="flex items-center text-primary-400 hover:text-primary-300 mb-8 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Home
-        </button>
+    <div className="min-h-screen bg-gradient-to-br from-primary-900 via-accent-900 to-primary-800">
+      <Header />
+      <div className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Back Button */}
+          <button 
+            onClick={() => navigate('/')}
+            className="flex items-center text-primary-400 hover:text-primary-300 mb-8 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </button>
 
         {/* Disclaimer Content */}
         <div className="bg-white/5 rounded-2xl border border-white/10 backdrop-blur-xl p-8 sm:p-12">
@@ -165,6 +176,8 @@ const Disclaimer = ({ onBack }) => {
           </div>
         </div>
       </div>
+      </div>
+      <Footer />
     </div>
   )
 }

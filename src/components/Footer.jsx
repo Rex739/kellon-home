@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { 
   Wallet, 
   Twitter, 
@@ -13,7 +14,7 @@ import {
 import SuccessModal from './SuccessModal'
 import { waitlistService } from '../services/supabase'
 
-const Footer = ({ onShowPrivacy, onShowTerms, onShowDisclaimer }) => {
+const Footer = () => {
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
@@ -194,24 +195,24 @@ const Footer = ({ onShowPrivacy, onShowTerms, onShowDisclaimer }) => {
             <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 text-gray-400 text-sm mb-4 md:mb-0">
               <span>© 2025 Kellon. All rights reserved.</span>
               <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
-                <button 
-                  onClick={onShowPrivacy}
+                <Link 
+                  to="/privacy-policy"
                   className="hover:text-primary-400 transition-colors underline"
                 >
                   Privacy Policy
-                </button>
-                <button 
-                  onClick={onShowTerms}
+                </Link>
+                <Link 
+                  to="/terms-of-use"
                   className="hover:text-primary-400 transition-colors underline"
                 >
                   Terms of Use
-                </button>
-                <button 
-                  onClick={onShowDisclaimer}
+                </Link>
+                <Link 
+                  to="/disclaimer"
                   className="hover:text-primary-400 transition-colors underline"
                 >
                   Disclaimer
-                </button>
+                </Link>
               </div>
             </div>
             
