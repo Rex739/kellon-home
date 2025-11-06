@@ -13,7 +13,7 @@ import {
 import SuccessModal from './SuccessModal'
 import { waitlistService } from '../services/supabase'
 
-const Footer = () => {
+const Footer = ({ onShowPrivacy, onShowTerms, onShowDisclaimer }) => {
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
@@ -191,8 +191,28 @@ const Footer = () => {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2025 Kellon. All rights reserved.
+            <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 text-gray-400 text-sm mb-4 md:mb-0">
+              <span>© 2025 Kellon. All rights reserved.</span>
+              <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
+                <button 
+                  onClick={onShowPrivacy}
+                  className="hover:text-primary-400 transition-colors underline"
+                >
+                  Privacy Policy
+                </button>
+                <button 
+                  onClick={onShowTerms}
+                  className="hover:text-primary-400 transition-colors underline"
+                >
+                  Terms of Use
+                </button>
+                <button 
+                  onClick={onShowDisclaimer}
+                  className="hover:text-primary-400 transition-colors underline"
+                >
+                  Disclaimer
+                </button>
+              </div>
             </div>
             
             {/* Social Links */}
