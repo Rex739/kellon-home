@@ -1,99 +1,145 @@
-import React, { useState } from 'react'
-import { Menu, X, Wallet } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+"use client"
 
-const Header = () => {
+import React, { useState } from "react"
+import { Menu, X } from "lucide-react"
+
+export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const navigate = useNavigate()
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
-  const handleLogoClick = () => {
-    navigate('/')
+  // ⬇️ EXACT SAME WAITLIST SCROLL LOGIC YOU USE IN HERO
+  const scrollToWaitlist = () => {
+    const footer = document.querySelector("footer")
+    if (footer) {
+      footer.scrollIntoView({ behavior: "smooth" })
+      setTimeout(() => {
+        const emailInput = footer.querySelector('input[type="email"]')
+        if (emailInput) emailInput.focus()
+      }, 500)
+    }
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-primary-900/80 backdrop-blur-md border-b border-accent-500/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo */}
-          <div 
-            className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity"
-            onClick={handleLogoClick}
-          >
-            <img 
-              src="/logo.png?v=20251108" 
-              alt="Kellon Logo" 
-              className="w-10 h-10 md:w-12 md:h-12 object-contain"
-            />
-            <span className="text-xl md:text-2xl font-bold text-white">Kellon</span>
-          </div>
+    <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
+      <div
+        className="
+          w-full max-w-7xl 
+          bg-primary-1000/50 backdrop-blur-xl 
+          border border-accent-500/20
+          rounded-2xl shadow-lg
+          px-6 py-3
+          flex items-center justify-between
+        "
+      >
+        {/* Logo */}
+        <div className="flex items-center space-x-3 cursor-pointer">
+          <img
+            src="/logo.png?v=20251108"
+            alt="Kellon Logo"
+            className="w-10 h-10 object-contain"
+          />
+          <span className="text-xl font-bold text-white">Kellon</span>
+        </div>
 
-          {/* Desktop Navigation - moved to the right */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-gray-300 hover:text-white transition-colors">
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-10">
+          <a href="#features" className="text-gray-200 hover:text-white">
+            Features
+          </a>
+          <a href="#about" className="text-gray-200 hover:text-white">
+            About
+          </a>
+          <a href="#security" className="text-gray-200 hover:text-white">
+            Security
+          </a>
+          <a href="#contact" className="text-gray-200 hover:text-white">
+            Contact
+          </a>
+        </nav>
+
+        {/* Desktop CTA */}
+        <button
+          onClick={scrollToWaitlist}
+          className="
+            hidden md:flex
+            px-5 py-2 
+            bg-white text-primary-900 font-semibold
+            rounded-lg shadow
+            hover:bg-gray-200 transition
+          "
+        >
+          Join Waitlist
+        </button>
+
+        {/* Mobile Menu Toggle */}
+        <button className="md:hidden text-white" onClick={toggleMenu}>
+          {isMenuOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div
+          className="
+            absolute top-full mt-3 
+            w-full max-w-7xl 
+            bg-primary-900/95 backdrop-blur-xl 
+            border border-white/10 rounded-xl shadow-lg 
+            px-6 py-4 md:hidden
+          "
+        >
+          <nav className="flex flex-col space-y-4">
+            <a
+              href="#features"
+              onClick={toggleMenu}
+              className="text-gray-200 hover:text-white"
+            >
               Features
             </a>
-            <a href="#about" className="text-gray-300 hover:text-white transition-colors">
+            <a
+              href="#about"
+              onClick={toggleMenu}
+              className="text-gray-200 hover:text-white"
+            >
               About
             </a>
-            <a href="#security" className="text-gray-300 hover:text-white transition-colors">
+            <a
+              href="#security"
+              onClick={toggleMenu}
+              className="text-gray-200 hover:text-white"
+            >
               Security
             </a>
-            <a href="#contact" className="text-gray-300 hover:text-white transition-colors">
+            <a
+              href="#contact"
+              onClick={toggleMenu}
+              className="text-gray-200 hover:text-white"
+            >
               Contact
             </a>
           </nav>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile CTA */}
           <button
-            className="md:hidden text-white"
-            onClick={toggleMenu}
+            onClick={() => {
+              toggleMenu()
+              scrollToWaitlist()
+            }}
+            className="
+              w-full mt-4 px-4 py-3 
+              bg-white text-primary-900 font-semibold rounded-lg
+              hover:bg-gray-200 transition
+            "
           >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            Join Waitlist
           </button>
         </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-white/10">
-            <nav className="flex flex-col space-y-4">
-              <a 
-                href="#features" 
-                className="text-gray-300 hover:text-white transition-colors"
-                onClick={toggleMenu}
-              >
-                Features
-              </a>
-              <a 
-                href="#about" 
-                className="text-gray-300 hover:text-white transition-colors"
-                onClick={toggleMenu}
-              >
-                About
-              </a>
-              <a 
-                href="#security" 
-                className="text-gray-300 hover:text-white transition-colors"
-                onClick={toggleMenu}
-              >
-                Security
-              </a>
-              <a 
-                href="#contact" 
-                className="text-gray-300 hover:text-white transition-colors"
-                onClick={toggleMenu}
-              >
-                Contact
-              </a>
-            </nav>
-          </div>
-        )}
-      </div>
+      )}
     </header>
   )
 }
-
-export default Header
