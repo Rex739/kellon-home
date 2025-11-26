@@ -8,25 +8,25 @@ const regulatoryPoints = [
     icon: <ShieldCheck className="w-6 h-6 text-primary" />,
     title: "Non-Custodial",
     description:
-      "Kellon never holds user assets directly. You remain in full control of your crypto.",
+      "Kellon never holds user assets directly. You remain in full control of your crypto",
   },
   {
     icon: <FileText className="w-6 h-6 text-primary" />,
     title: "Licensed Partners",
     description:
-      "All fiat on-ramps, off-ramps, and custody operations are handled by licensed, compliant providers.",
+      "All fiat on-ramps, off-ramps, and custody operations are handled through our licenced  partners, ensuring safety and reliability",
   },
   {
     icon: <Lock className="w-6 h-6 text-primary" />,
     title: "Secure Wallet",
     description:
-      "Recovery and key management are handled securely through Web3Auth, ensuring safety and reliability.",
+      "Recovery and key management are handled securely through Web3Auth, ensuring safety and reliability",
   },
   {
     icon: <Globe className="w-6 h-6 text-primary" />,
     title: "Future Licensing",
     description:
-      "We are actively working toward fully licensed infrastructure for seamless global compliance.",
+      "We are actively working toward fully licensed infrastructure for seamless global compliance",
   },
 ]
 
