@@ -2,6 +2,7 @@
 
 import React, { useState } from "react"
 import { Menu, X } from "lucide-react"
+import { Link } from "react-router-dom"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -33,13 +34,19 @@ export default function Header() {
         "
       >
         {/* Logo */}
-        <div className="flex items-center space-x-3 cursor-pointer">
-          <img
-            src="/logo.png?v=20251108"
-            alt="Kellon Logo"
-            className="w-10 h-10 object-contain"
-          />
-          <span className="text-xl font-bold text-white">Kellon</span>
+        <div>
+          <Link
+            to="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="flex items-center space-x-3 cursor-pointer"
+          >
+            <img
+              src="/logo.png?v=20251108"
+              alt="Kellon Logo"
+              className="w-10 h-10 object-contain"
+            />
+            <span className="text-xl font-bold text-white">Kellon</span>
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
@@ -50,9 +57,7 @@ export default function Header() {
           <a href="#about" className="text-gray-200 hover:text-white">
             About
           </a>
-          <a href="#security" className="text-gray-200 hover:text-white">
-            Security
-          </a>
+
           <a href="#contact" className="text-gray-200 hover:text-white">
             Contact
           </a>
@@ -107,13 +112,6 @@ export default function Header() {
               className="text-gray-200 hover:text-white"
             >
               About
-            </a>
-            <a
-              href="#security"
-              onClick={toggleMenu}
-              className="text-gray-200 hover:text-white"
-            >
-              Security
             </a>
             <a
               href="#contact"
