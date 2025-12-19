@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { Mail, Twitter, Github, Linkedin, ArrowRight } from "lucide-react"
 import SuccessModal from "./SuccessModal"
 import { waitlistService } from "../services/supabase"
+import { XIcon } from "../lib/icons/LucideIcons"
 
 const Footer = () => {
   const [email, setEmail] = useState("")
@@ -47,13 +48,32 @@ const Footer = () => {
   }
 
   const socialLinks = [
-    { icon: Twitter, href: "#", label: "Twitter" },
+    { icon: XIcon, href: "https://x.com/Kellonapp", label: "X" },
     { icon: Github, href: "#", label: "GitHub" },
     { icon: Linkedin, href: "#", label: "LinkedIn" },
   ]
 
+  // DTP: disclaimer -- terms -- privacy
+  const DTPLinks = [
+    {
+      label: "Disclaimer",
+      href: "disclaimer",
+    },
+    {
+      label: "Terms",
+      href: "terms-of-use",
+    },
+    {
+      label: "Privacy",
+      href: "privacy-policy",
+    },
+  ]
+
   return (
-    <footer className="bg-primary-800 border-t border-white/10 relative overflow-hidden">
+    <footer
+      className="bg-primary-800 border-t border-white/10 relative overflow-hidden"
+      id="contact"
+    >
       {/* Background Accent */}
       <div className="absolute left-1/2 top-0 w-[900px] h-[900px] -translate-x-1/2 bg-primary/20 blur-[180px] rounded-full opacity-40 pointer-events-none"></div>
 
@@ -113,9 +133,19 @@ const Footer = () => {
             <span className="text-2xl font-bold text-white">Kellon</span>
           </div>
 
-          <div className="flex items-center mt-5 text-gray-400 gap-3 justify-center md:justify-start">
+          <div className="flex items-center mt-5 text-gray-400 gap-1 justify-center md:justify-start">
             <Mail className="w-4 h-4" />
-            <span>contact@kellon.xyz</span>
+
+            <span>
+              <a target="_blank" href="mailto:contact@kellon.xyz">
+                contact@kellon.xyz
+              </a>{" "}
+            </span>
+          </div>
+          <div>
+            <p className=" text-gray-400">
+              10 Villa Avenue, Ibeju-lekki. Lagos, Nigeria
+            </p>
           </div>
         </div>
 
@@ -126,9 +156,9 @@ const Footer = () => {
               Company
             </h4>
             <ul className="space-y-2">
-              {["About", "Careers", "Press", "Blog"].map((item) => (
+              {["about", "how it works", "features"].map((item) => (
                 <li key={item}>
-                  <a className="text-gray-400 hover:text-white transition cursor-pointer">
+                  <a href={`#${item}`} className="text-gray-400 hover:text-white transition cursor-pointer capitalize">
                     {item}
                   </a>
                 </li>
@@ -138,13 +168,16 @@ const Footer = () => {
 
           <div>
             <h4 className="text-white font-semibold mb-4 tracking-wide">
-              Support
+              Terms & Policies
             </h4>
             <ul className="space-y-2">
-              {["Help Center", "Contact", "Status", "Community"].map((item) => (
-                <li key={item}>
-                  <a className="text-gray-400 hover:text-white transition cursor-pointer">
-                    {item}
+              {DTPLinks.map(({ label, href, i }) => (
+                <li key={i}>
+                  <a
+                    href={href}
+                    className="text-gray-400 hover:text-white transition cursor-pointer"
+                  >
+                    {label}
                   </a>
                 </li>
               ))}
@@ -162,6 +195,7 @@ const Footer = () => {
                 <a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
                   className="w-10 h-10 bg-white/5 border border-white/10 rounded-lg 
                   flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition"
                 >
@@ -175,14 +209,10 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10 py-6 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between text-gray-400 text-sm gap-3">
-          <span>© 2025 Kellon. All rights reserved.</span>
+        <div className=" text-gray-400 text-sm gap-3 text-center">
+          <span>&copy; 2025 Kellon. All rights reserved.</span>
 
-          <div className="flex gap-6 underline">
-            <Link to="/privacy-policy">Privacy</Link>
-            <Link to="/terms-of-use">Terms</Link>
-            <Link to="/disclaimer">Disclaimer</Link>
-          </div>
+         
         </div>
       </div>
 
