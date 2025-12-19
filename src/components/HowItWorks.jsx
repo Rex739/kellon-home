@@ -6,7 +6,7 @@ import React from "react"
 
 const HowItWorks = () => {
   return (
-    <section className="w-full py-24 bg-primary-500 relative overflow-hidden">
+      <section className="w-full py-24 bg-primary-500 relative overflow-hidden" id="how it works">
       {/* Grid Background Vector */}
       <div className="absolute inset-0">
         {/* Grid Net Pattern */}
