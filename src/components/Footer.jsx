@@ -5,6 +5,7 @@ import SuccessModal from "./SuccessModal"
 import { waitlistService } from "../services/supabase"
 import { XIcon } from "../lib/icons/LucideIcons"
 
+
 const Footer = () => {
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -57,17 +58,32 @@ const Footer = () => {
   const DTPLinks = [
     {
       label: "Disclaimer",
-      href: "disclaimer",
+      href: "/disclaimer",
     },
     {
       label: "Terms",
-      href: "terms-of-use",
+      href: "/terms-of-use",
     },
     {
       label: "Privacy",
-      href: "privacy-policy",
+      href: "/privacy-policy",
     },
   ]
+
+const navLinks = [
+  {
+    label: "About",
+    sectionId: "about",
+  },
+  {
+    label: "Features",
+    sectionId: "features",
+  },
+  {
+    label: "How it works",
+    sectionId: "how-it-works", // Note: use kebab-case to match HTML id
+  },
+]
 
   return (
     <footer
@@ -79,7 +95,7 @@ const Footer = () => {
 
       {/* Newsletter Section */}
       <div className=" border-white/10 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto text-center">
+        <div className="max-w-6xl mx-auto lg:text-center">
           <h3 className="text-3xl font-bold text-white mb-3 font-bungee">
             Join Our Waitlist
           </h3>
@@ -133,11 +149,15 @@ const Footer = () => {
             <span className="text-2xl font-bold text-white">Kellon</span>
           </div>
 
-          <div className="flex items-center mt-5 text-gray-400 gap-1 justify-center md:justify-start">
-            <Mail className="w-4 h-4" />
+          <div className="flex items-center mt-5 text-gray-400 gap-1 justify-center md:justify-start group">
+            <Mail className="w-4 h-4 group-hover:text-white" />
 
             <span>
-              <a target="_blank" href="mailto:contact@kellon.xyz">
+              <a
+                target="_blank"
+                href="mailto:contact@kellon.xyz"
+                className="group-hover:text-white"
+              >
                 contact@kellon.xyz
               </a>{" "}
             </span>
@@ -156,11 +176,15 @@ const Footer = () => {
               Company
             </h4>
             <ul className="space-y-2">
-              {["about", "how it works", "features"].map((item) => (
-                <li key={item}>
-                  <a href={`#${item}`} className="text-gray-400 hover:text-white transition cursor-pointer capitalize">
-                    {item}
-                  </a>
+              {navLinks.map(({ label, sectionId}, i) => (
+                <li key={i}>
+                  <Link
+                    to="/"
+                    state={{ scrollTo: sectionId }}
+                    className="text-gray-400 hover:text-white transition cursor-pointer capitalize"
+                  >
+                    {label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -171,14 +195,14 @@ const Footer = () => {
               Terms & Policies
             </h4>
             <ul className="space-y-2">
-              {DTPLinks.map(({ label, href, i }) => (
+              {DTPLinks.map(({ label, href,}, i) => (
                 <li key={i}>
-                  <a
-                    href={href}
+                  <Link
+                    to={href}
                     className="text-gray-400 hover:text-white transition cursor-pointer"
                   >
                     {label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -211,8 +235,6 @@ const Footer = () => {
       <div className="border-t border-white/10 py-6 px-4 sm:px-6 lg:px-8">
         <div className=" text-gray-400 text-sm gap-3 text-center">
           <span>&copy; 2025 Kellon. All rights reserved.</span>
-
-         
         </div>
       </div>
 
