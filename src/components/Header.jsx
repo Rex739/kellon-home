@@ -16,6 +16,7 @@ export default function Header() {
       footer.scrollIntoView({ behavior: "smooth" })
       setTimeout(() => {
         const emailInput = footer.querySelector('input[type="email"]')
+        // @ts-ignore
         if (emailInput) emailInput.focus()
       }, 500)
     }
@@ -51,16 +52,28 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-10">
-          <a href="#features" className="text-gray-200 hover:text-white">
+          <Link
+            to="/#features"
+            state={{ scrollTo: "features" }}
+            className="text-gray-200 hover:text-white"
+          >
             Features
-          </a>
-          <a href="#about" className="text-gray-200 hover:text-white">
+          </Link>
+          <Link
+            to="/"
+            state={{ scrollTo: "about" }}
+            className="text-gray-200 hover:text-white"
+          >
             About
-          </a>
+          </Link>
 
-          <a href="#contact" className="text-gray-200 hover:text-white">
+          <Link
+            to="/"
+            state={{ scrollTo: "contact" }}
+            className="text-gray-200 hover:text-white"
+          >
             Contact
-          </a>
+          </Link>
         </nav>
 
         {/* Desktop CTA */}
@@ -99,27 +112,30 @@ export default function Header() {
           "
         >
           <nav className="flex flex-col space-y-4">
-            <a
-              href="#features"
+            <Link
+              to="/"
+              state={{ scrollTo: "features" }}
               onClick={toggleMenu}
               className="text-gray-200 hover:text-white"
             >
               Features
-            </a>
-            <a
-              href="#about"
+            </Link>
+            <Link
+              to="/"
+              state={{ scrollTo: "about" }}
               onClick={toggleMenu}
               className="text-gray-200 hover:text-white"
             >
               About
-            </a>
-            <a
-              href="#contact"
+            </Link>
+            <Link
+              to="/"
+              state={{ scrollTo: "contact" }}
               onClick={toggleMenu}
               className="text-gray-200 hover:text-white"
             >
               Contact
-            </a>
+            </Link>
           </nav>
 
           {/* Mobile CTA */}
