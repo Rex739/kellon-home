@@ -325,7 +325,9 @@ export default function Header() {
       )}
 
       {/* Add animation styles for SLIDE UP */}
-      <style jsx>{`
+      <style 
+// @ts-ignore
+      jsx>{`
         @keyframes slideUp {
           from {
             opacity: 0;
