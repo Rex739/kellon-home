@@ -15,6 +15,7 @@ const About = () => {
       footer.scrollIntoView({ behavior: "smooth" })
       setTimeout(() => {
         const input = footer.querySelector('input[type="email"]')
+        // @ts-ignore
         input?.focus()
       }, 500)
     }
@@ -22,7 +23,7 @@ const About = () => {
 
   const milestones = [
     { icon: Calendar, number: "2025", label: "Founded" },
-    { icon: Globe, number: "50+", label: "Countries" },
+    { icon: Globe, number: "10", label: "Countries" },
   ]
 
   const values = [
@@ -127,7 +128,7 @@ const About = () => {
 
                 <button
                   onClick={scrollToWaitlist}
-                  className="w-full py-4 bg-gradient-to-r from-accent-500 to-primary-800 rounded-2xl text-white font-semibold flex items-center justify-center gap-3 hover:scale-105 transition-all"
+                  className="w-full py-4 bg-gradient-to-r from-accent-500 to-primary-800 rounded-2xl text-white text-sm font-semibold flex items-center justify-center gap-3 hover:scale-105 transition-all"
                 >
                   Join Waitlist <ArrowRight className="w-5 h-5" />
                 </button>

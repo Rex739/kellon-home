@@ -1,146 +1,166 @@
-import React, { useRef } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useSpring, animated, config } from "@react-spring/web"
 import { useInView } from "react-intersection-observer"
 import {
-  CreditCard,
-  RefreshCcw,
-  Send,
   Wallet,
-  Home,
-  Shield,
+  ShieldCheck,
   Zap,
   Globe,
-  TrendingUp,
-  Lock,
+  Home,
   ArrowRight,
+  Lock,
 } from "lucide-react"
+import React from "react"
 
-const Features = () => {
-  const features = [
-    {
-      icon: Wallet,
-      title: "Non-Custodial Wallet",
-      description:
-        "Your keys, your crypto. Full control with enterprise-grade security.",
-      color: "from-purple-500 to-pink-500",
-      gradient: "bg-gradient-to-br from-purple-500/20 to-pink-500/20",
-      border: "border-purple-500/20",
-    },
-    {
-      icon: RefreshCcw,
-      title: "Fiat & Crypto Flow",
-      description: "Seamless on/off ramps through licensed global partners.",
-      color: "from-blue-500 to-cyan-500",
-      gradient: "bg-gradient-to-br from-blue-500/20 to-cyan-500/20",
-      border: "border-blue-500/20",
-    },
-    {
-      icon: Home,
-      title: "Tokenized RWA Access",
-      description: "Global real estate, stocks, and commodities in one tap.",
-      color: "from-orange-500 to-yellow-500",
-      gradient: "bg-gradient-to-br from-orange-500/20 to-yellow-500/20",
-      border: "border-orange-500/20",
-    },
-    {
-      icon: CreditCard,
-      title: "Borderless Payments",
-      description: "Send globally and pay bills from a single interface.",
-      color: "from-green-500 to-emerald-500",
-      gradient: "bg-gradient-to-br from-green-500/20 to-emerald-500/20",
-      border: "border-green-500/20",
-    },
-  ]
+const countries = [
+  { name: "Nigeria", flag: "🇳🇬", region: "Africa" },
+  { name: "Kenya", flag: "🇰🇪", region: "Africa" },
+  { name: "Ghana", flag: "🇬🇭", region: "Africa" },
+  { name: "Uganda", flag: "🇺🇬", region: "Africa" },
+  { name: "Tanzania", flag: "🇹🇿", region: "Africa" },
+  { name: "Malawi", flag: "🇲🇼", region: "Africa" },
+  { name: "Benin", flag: "🇧🇯", region: "Africa" },
+  { name: "Côte d'Ivoire", flag: "🇨🇮", region: "Africa" },
+  { name: "United States", flag: "🇺🇸", region: "North America" },
+  { name: "Canada", flag: "🇨🇦", region: "North America" },
+  { name: "Mexico", flag: "🇲🇽", region: "North America" },
+  { name: "United Kingdom", flag: "🇬🇧", region: "Europe" },
+  { name: "India", flag: "🇮🇳", region: "Asia" },
+  { name: "Brazil", flag: "🇧🇷", region: "South America" },
+  { name: "Australia", flag: "🇦🇺", region: "Oceania" },
+  { name: "Zambia", flag: "🇿🇲", region: "Africa" },
+]
 
-  const benefits = [
-    {
-      icon: Shield,
-      title: "Enterprise Security",
-      description:
-        "Multi-sig wallets, cold storage, and military-grade encryption",
-      stat: "99.9%",
-    },
-    {
-      icon: Zap,
-      title: "Lightning Fast",
-      description:
-        "Instant settlements with optimized blockchain infrastructure",
-      stat: "<2s",
-    },
-    {
-      icon: Globe,
-      title: "Global Access",
-      description: "Available in 150+ countries with local payment methods",
-      stat: "150+",
-    },
-    {
-      icon: TrendingUp,
-      title: "Best Rates",
-      description: "Competitive pricing through smart order routing",
-      stat: "0.1%",
-    },
-  ]
+const features = [
+  {
+    title: "Non-Custodial Wallet",
+    description:
+      "Your keys, your crypto. Full control with enterprise-grade security.",
+    icon: Wallet,
+    gradient: "bg-gradient-to-br from-purple-500/10 to-pink-500/10",
+    border: "border-purple-500/30",
+    color: "from-purple-500 to-pink-500",
+  },
+  {
+    title: "Fiat & Crypto Flow",
+    description: "Seamless on/off ramps through licensed global partners.",
+    icon: ShieldCheck,
+    gradient: "bg-gradient-to-br from-blue-500/10 to-purple-500/10",
+    border: "border-blue-500/30",
+    color: "from-blue-500 to-purple-500",
+  },
+  {
+    title: "Tokenized RWA Access",
+    description:
+      "Invest in global real estate, stocks, and commodities in one tap.",
+    icon: Home,
+    gradient: "bg-gradient-to-br from-orange-500/10 to-yellow-500/10",
+    border: "border-orange-500/30",
+    color: "from-orange-500 to-yellow-500",
+  },
+  {
+    title: "Instant & Borderless Payments",
+    description:
+      "Lightning-fast settlements with minimal fees across networks.",
+    icon: Zap,
+    gradient: "bg-gradient-to-br from-green-500/10 to-emerald-500/10",
+    border: "border-green-500/30",
+    color: "from-green-500 to-emerald-500",
+  },
+]
 
-  // Parallax container ref
-  const containerRef = useRef(null)
+export default function FeaturesSection() {
+  const [angle, setAngle] = useState(0)
 
-  // Header animation
-  const [headerRef, headerInView] = useInView({
-    threshold: 0.3,
-    triggerOnce: true,
-  })
+  // Animation refs
+  const headerRef = useRef(null)
+  const [headerInView, setHeaderInView] = useState(false)
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHeaderInView(true)
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    if (headerRef.current) {
+      observer.observe(headerRef.current)
+    }
+
+    return () => {
+      if (headerRef.current) {
+        observer.unobserve(headerRef.current)
+      }
+    }
+  }, [])
+
+  // Circular rotation animation
+  useEffect(() => {
+    let animationId
+    let startTime
+    const radius = 140 // Distance from center
+    const speed = 0.0003 // Rotation speed (radians per ms)
+
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp
+      const elapsed = timestamp - startTime
+
+      // Calculate new angle
+      setAngle(elapsed * speed)
+
+      animationId = requestAnimationFrame(animate)
+    }
+
+    animationId = requestAnimationFrame(animate)
+
+    return () => {
+      if (animationId) cancelAnimationFrame(animationId)
+    }
+  }, [])
+
+  // Spring animations
   const headerSpring = useSpring({
     opacity: headerInView ? 1 : 0,
     transform: headerInView ? "translateY(0px)" : "translateY(30px)",
     config: config.molasses,
   })
 
-  // Scroll to waitlist function
+  // Feature animations
+  const featuresAnimation = useSpring({
+    opacity: headerInView ? 1 : 0,
+    transform: headerInView ? "translateY(0px)" : "translateY(40px)",
+    config: config.gentle,
+    delay: 300,
+  })
+
   const scrollToWaitlist = () => {
     const footer = document.querySelector("footer")
     if (footer) {
       footer.scrollIntoView({ behavior: "smooth" })
       setTimeout(() => {
-        const emailInput = footer.querySelector('input[type="email"]')
-        if (emailInput) {
-          emailInput.focus()
-        }
+        const input = footer.querySelector('input[type="email"]')
+        // @ts-ignore
+        input?.focus()
       }, 500)
     }
   }
 
   return (
     <section
+      className="relative pb-24 px-6 bg-black overflow-hidden"
       id="features"
-      ref={containerRef}
-      className="relative py-20 px-4 sm:px-6 lg:px-8 bg-primary-900 overflow-hidden"
     >
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        <animated.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
-          style={{
-            transform: "translate3d(0px, 0px, 0px)",
-          }}
-        />
-        <animated.div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
-          style={{
-            transform: "translate3d(0px, 0px, 0px)",
-          }}
-        />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto relative">
-        {/* Animated Section Header */}
+      <div className="max-w-7xl mx-auto">
+        {/* Animated Header */}
         <animated.div
           ref={headerRef}
           style={headerSpring}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 mb-6 backdrop-blur-sm">
             <Lock className="w-4 h-4 text-purple-400" />
             <span className="text-sm font-medium text-gray-300">
               Secure & Compliant
@@ -159,138 +179,142 @@ const Features = () => {
           </p>
         </animated.div>
 
-        {/* Main Features Grid with Staggered Animation */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-24">
-          {features.map((feature, index) => {
-            const IconComponent = feature.icon
-            const [featureRef, featureInView] = useInView({
-              threshold: 0.2,
-              triggerOnce: true,
-            })
+        {/* SPLIT LAYOUT with Animation */}
+        <animated.div
+          style={featuresAnimation}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-24"
+        >
+          {/* LEFT */}
+          <div className="lg:col-span-5 flex flex-col justify-center">
+            <h3 className="text-3xl sm:text-4xl font-bold text-white mb-6">
+              Everything You Need.
+              <span className="block text-purple-400">Nothing You Don't.</span>
+            </h3>
 
-            const featureSpring = useSpring({
-              opacity: featureInView ? 1 : 0,
-              transform: featureInView ? "translateY(0px)" : "translateY(40px)",
-              config: config.gentle,
-              delay: index * 100,
-            })
-
-            return (
-              <animated.div
-                key={index}
-                ref={featureRef}
-                style={featureSpring}
-                className={`group relative p-8 rounded-3xl border ${feature.border} ${feature.gradient} backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl cursor-pointer`}
-                onClick={() => {
-                  // Add click parallax effect
-                  console.log(`Clicked ${feature.title}`)
-                }}
+            <div className="mt-8">
+              <p className="text-gray-400 text-sm mb-3">Want to learn more?</p>
+              <a
+                href="#how-it-works"
+                className="text-purple-400 hover:text-purple-300 font-medium flex items-center gap-2"
               >
-                {/* Hover Gradient Overlay */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 rounded-3xl transition-opacity duration-500`}
-                ></div>
+                See how it works
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
 
-                <div className="relative z-10">
+          {/* RIGHT - Features Grid */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {features.map((feature, i) => {
+              const Icon = feature.icon
+              return (
+                <div
+                  key={i}
+                  className={`p-7 rounded-2xl border ${feature.border} ${feature.gradient} backdrop-blur-sm hover:scale-[1.03] transition-all duration-500 hover:shadow-xl cursor-pointer`}
+                >
                   <div
-                    className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
+                    className={`w-14 h-14 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}
                   >
-                    <IconComponent className="w-8 h-8 text-white" />
+                    <Icon className="w-7 h-7 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">
+                  <h4 className="text-xl font-semibold text-white mb-2">
                     {feature.title}
-                  </h3>
-                  <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                  </h4>
+                  <p className="text-gray-300 text-sm leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
-              </animated.div>
-            )
-          })}
-        </div>
-
-        {/* Benefits Section with Animation */}
-        <div className="relative">
-          <div className="text-center mb-16">
-            <h3 className="text-3xl sm:text-4xl font-bold text-white mb-4 font-bungee">
-              Built for Performance
-            </h3>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Engineered with cutting-edge technology to deliver the fastest,
-              most secure crypto experience available.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {benefits.map((benefit, index) => {
-              const IconComponent = benefit.icon
-              const [benefitRef, benefitInView] = useInView({
-                threshold: 0.2,
-                triggerOnce: true,
-              })
-
-              const benefitSpring = useSpring({
-                opacity: benefitInView ? 1 : 0,
-                transform: benefitInView
-                  ? "translateY(0px)"
-                  : "translateY(30px)",
-                config: config.gentle,
-                delay: index * 150,
-              })
-
-              return (
-                <animated.div
-                  key={index}
-                  ref={benefitRef}
-                  style={benefitSpring}
-                  className="group text-center p-6 rounded-2xl border border-white/5 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all duration-300 cursor-pointer"
-                  onClick={() => {
-                    // Add click parallax effect
-                    console.log(`Clicked ${benefit.title}`)
-                  }}
-                >
-                  <div className="w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-700 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="text-3xl font-bold text-white mb-2">
-                    {benefit.stat}
-                  </div>
-                  <h4 className="text-lg font-semibold text-white mb-2">
-                    {benefit.title}
-                  </h4>
-                  <p className="text-gray-400 text-sm leading-relaxed">
-                    {benefit.description}
-                  </p>
-                </animated.div>
               )
             })}
           </div>
+        </animated.div>
 
-          {/* Animated CTA Bottom */}
-          <animated.div
-            className="text-center mt-16 pt-8 border-t border-white/10"
-            style={{
-              opacity: headerInView ? 1 : 0,
-              transform: headerInView ? "translateY(0px)" : "translateY(20px)",
-              transition: "all 0.6s ease-out",
-              transitionDelay: "600ms",
-            }}
+        {/* 🌍 CIRCULAR COUNTRY DISPLAY */}
+        <div className="text-center mb-32">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 mb-6 backdrop-blur-sm mb-32">
+            <span className="text-sm font-medium text-gray-300">
+              Trusted worldwide
+            </span>
+          </div>
+
+          <div className="relative h-80 flex items-center justify-center">
+            {/* Circular orbit path (visual guide) */}
+            <div className="absolute w-80 h-80">
+              {/* Outer glow */}
+              <div className="absolute -inset-4 bg-gradient-to-br from-purple-500/10 to-cyan-500/10 rounded-full blur-2xl" />
+
+              {/* Main holographic sphere */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-cyan-900/20 backdrop-blur-sm border border-white/10">
+                {/* Holographic grid */}
+                <div className="absolute inset-0">
+                  {/* Longitude lines */}
+                  <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent" />
+                  <div className="absolute left-1/4 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-purple-400/10 to-transparent" />
+                  <div className="absolute right-1/4 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-purple-400/10 to-transparent" />
+
+                  {/* Latitude lines */}
+                  <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent" />
+                  <div className="absolute top-1/4 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-400/10 to-transparent" />
+                  <div className="absolute bottom-1/4 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-400/10 to-transparent" />
+                </div>
+
+                {/* Pulsing core */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-full blur-md animate-pulse" />
+              </div>
+            </div>
+
+            {/* Rotating countries */}
+            {countries.map((country, idx) => {
+              // Calculate position on circle
+              const countryAngle =
+                angle + idx * ((2 * Math.PI) / countries.length)
+              const x = Math.cos(countryAngle) * 200
+              const y = Math.sin(countryAngle) * 200
+
+              return (
+                <animated.div
+                  key={idx}
+                  className="absolute flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2"
+                  style={{
+                    left: `calc(50% + ${x}px)`,
+                    top: `calc(50% + ${y}px)`,
+                  }}
+                >
+                  <div className="text-3xl mb-2 animate-pulse">
+                    {country.flag}
+                  </div>
+                  <div className="text-sm text-white font-medium whitespace-nowrap">
+                    {country.name}
+                  </div>
+                  <div className="text-xs text-gray-400">{country.region}</div>
+                </animated.div>
+              )
+            })}
+
+            {/* Center badge */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="">
+                <div className="text-5xl font-bold text-white mb-2">50+</div>
+                <div className="text-purple-300 font-medium text-lg mb-1">
+                  countries supported
+                </div>
+                <div className="text-gray-400 text-sm">more coming soon</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* FINAL CTA */}
+        <div className="text-center">
+          <button
+            onClick={scrollToWaitlist}
+            className="px-8 py-4 bg-gradient-to-r from-accent-400 to-primary-800 rounded-xl  text-white font-semibold hover:scale-105 hover:shadow-xl hover:shadow-primary-500/25 transition-all duration-300 flex items-center justify-center gap-2 mx-auto text-sm"
           >
-            <p className="text-gray-400 mb-6">
-              Ready to experience the future of finance?
-            </p>
-            <button
-              onClick={scrollToWaitlist}
-              className="px-8 py-4 bg-gradient-to-r from-accent-400 to-primary-800 rounded-xl text-white font-semibold hover:scale-105 hover:shadow-xl hover:shadow-primary-500/25 transition-all duration-300 flex items-center justify-center gap-2 mx-auto"
-            >
-              Join Waitlist - Get Early Access
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </animated.div>
+            Join Waitlist - Get Early Access
+            <ArrowRight className="w-5 h-5" />
+          </button>
         </div>
       </div>
     </section>
   )
 }
-
-export default Features

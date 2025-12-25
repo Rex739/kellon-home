@@ -71,7 +71,7 @@ const MarketOpportunity = () => {
   ]
 
   return (
-    <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-primary-900 overflow-hidden">
+    <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-primary-900 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-0 w-96 h-96 bg-accent-500/20 rounded-full blur-3xl" />
