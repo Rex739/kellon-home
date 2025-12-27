@@ -231,7 +231,7 @@ export default function FeaturesSection() {
 
         {/* 🌍 CIRCULAR COUNTRY DISPLAY */}
         <div className="text-center mb-32">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 mb-6 backdrop-blur-sm mb-32">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-32">
             <span className="text-sm font-medium text-gray-300">
               Trusted worldwide
             </span>
