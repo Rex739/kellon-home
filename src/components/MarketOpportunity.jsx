@@ -148,6 +148,7 @@ const MarketOpportunity = () => {
                   <animated.div
                     key={index}
                     style={springStyles}
+                    // @ts-ignore
                     onMouseEnter={() => setHoveredStat(index)}
                     onMouseLeave={() => setHoveredStat(null)}
                     className="text-center relative p-6 rounded-2xl backdrop-blur-sm bg-white/5 border border-white/10 hover:border-accent-500/30 transition-all duration-300 cursor-pointer"

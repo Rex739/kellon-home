@@ -23,7 +23,7 @@ const About = () => {
 
   const milestones = [
     { icon: Calendar, number: "2025", label: "Founded" },
-    { icon: Globe, number: "10", label: "Countries" },
+    { icon: Globe, number: "50+", label: "Countries" },
   ]
 
   const values = [
