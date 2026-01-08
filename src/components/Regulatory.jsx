@@ -6,21 +6,21 @@ import React from "react"
 const regulatoryPoints = [
   {
     icon: <ShieldCheck className="w-6 h-6 text-primary" />,
-    title: "Non-Custodial",
+    title: "Non-Custodial Architecture",
     description:
-      "Kellon never holds user assets directly. You remain in full control of your crypto",
+      "Kellon does not custody user funds. Users retain full control of their wallets and cryptographic keys, and all transactions are initiated directly by the user",
   },
   {
     icon: <FileText className="w-6 h-6 text-primary" />,
-    title: "Licensed Partners",
+    title: " Regulated Execution via Licensed Partners",
     description:
-      "All fiat on-ramps, off-ramps, and custody operations are handled through our licenced  partners, ensuring safety and reliability",
+      "All fiat on-ramp, off-ramp, liquidity, and settlement activities are executed through regulated and licensed third-party partners in accordance with applicable laws",
   },
   {
     icon: <Lock className="w-6 h-6 text-primary" />,
-    title: "Secure Wallet",
+    title: "Secure Wallet Design",
     description:
-      "Recovery and key management are handled securely, ensuring safety and reliability",
+      "Wallet infrastructure is designed around user-controlled keys and secure recovery mechanisms, ensuring users maintain ownership and control of their digital assets at all times",
   },
   {
     icon: <Globe className="w-6 h-6 text-primary" />,
@@ -45,8 +45,8 @@ export default function RegulatoryNote() {
         {/* RIGHT SIDE CONTENT */}
         <div className="space-y-8">
           <p className="text-lg md:text-xl font-semibold text-gray-200 mb-6">
-            Clear, direct, and compliant. Trust is built through transparency
-            and professional standards.
+            Clear, direct, and compliant. Kellon is built with transparency,
+            risk management, and professional compliance standards.
           </p>
 
           {regulatoryPoints.map((point, i) => (
