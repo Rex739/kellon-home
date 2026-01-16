@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
-import { useSpring, animated } from "@react-spring/web"
+import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight, Star, Globe, Shield, Zap } from "lucide-react"
 
 // --- DATA ---
@@ -20,25 +20,19 @@ export default function Hero() {
   const containerRef = useRef(null)
   const [currentImage, setCurrentImage] = useState(0)
   const [currentHeadline, setCurrentHeadline] = useState(0)
-  const [fade, setFade] = useState(true)
 
-  // 1. Headline Loop (Auto-plays on all devices)
+  // 1. Headline Loop
   useEffect(() => {
     const interval = setInterval(() => {
-      setFade(false)
-      setTimeout(() => {
-        setCurrentHeadline((prev) => (prev + 1) % headlines.length)
-        setFade(true)
-      }, 200)
+      setCurrentHeadline((prev) => (prev + 1) % headlines.length)
     }, 5000)
     return () => clearInterval(interval)
   }, [])
 
-  // 2. Scroll-driven Image Switch (Only affects Desktop due to layout changes)
+  // 2. Scroll-driven Image Switch
   useEffect(() => {
     const onScroll = () => {
       if (!containerRef.current) return
-      // Only run scroll logic if screen is large enough (desktop)
       if (window.innerWidth < 1024) return
 
       // @ts-ignore
@@ -55,13 +49,6 @@ export default function Hero() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  // Text Animation
-  const headlineSpring = useSpring({
-    opacity: fade ? 1 : 0,
-    transform: fade ? "translateY(0px)" : "translateY(10px)",
-    config: { tension: 120, friction: 14 },
-  })
-
   const scrollToWaitlist = () => {
     const footer = document.querySelector("footer")
     if (footer) {
@@ -75,12 +62,10 @@ export default function Hero() {
   }
 
   return (
-    // FIX 1: Use min-h-screen for mobile, specific 400vh only for desktop
     <section
       ref={containerRef}
       className="relative min-h-screen lg:h-[400vh] bg-primary-900"
     >
-      {/* FIX 2: Sticky is only applied on lg screens. On mobile, it's a normal block. */}
       <div className="relative lg:sticky lg:top-0 w-full min-h-screen lg:h-screen overflow-hidden flex items-center justify-center py-20 lg:py-0">
         {/* --- BACKGROUND --- */}
         <div className="absolute inset-0 z-0 pointer-events-none">
@@ -95,18 +80,30 @@ export default function Hero() {
         <div className="relative w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full z-10">
           {/* --- LEFT: TEXT --- */}
           <div className="flex flex-col justify-center h-full pt-10 lg:pt-0">
-            <div className="mb-6">
+            <div className="mb-8">
               <span className="px-4 py-2 rounded-full border border-accent-500/30 bg-accent-500/10 text-accent-400 text-sm font-bold uppercase tracking-wider">
                 Kellon Mobile
               </span>
             </div>
 
-            <animated.h1
-              style={headlineSpring}
-              className="text-5xl md:text-7xl font-extrabold font-bungee leading-[1.1] tracking-tight text-white mb-6"
-            >
-              {headlines[currentHeadline]}
-            </animated.h1>
+            {/* IMPROVED SPACING CONTAINER:
+              1. min-h adjusted to fit max text height without huge gaps.
+              2. justify-end ensures text grows UP, keeping the gap to the paragraph consistent.
+            */}
+            <div className="min-h-[140px] md:min-h-[180px] flex flex-col justify-end mb-6">
+              <AnimatePresence mode="wait">
+                <motion.h1
+                  key={currentHeadline}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="text-5xl md:text-7xl font-extrabold font-bungee leading-[1.05] tracking-tight text-white"
+                >
+                  {headlines[currentHeadline]}
+                </motion.h1>
+              </AnimatePresence>
+            </div>
 
             <p className="text-xl text-gray-300 leading-relaxed mb-10 max-w-lg">
               Kellon Mobile empowers you with a non-custodial wallet for
@@ -142,39 +139,38 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* --- RIGHT: MOCKUP (HIDDEN ON MOBILE) --- */}
+          {/* --- RIGHT: MOCKUP --- */}
           <div className="hidden lg:flex items-center justify-center relative h-full">
-            {/* Background Glow */}
             <div className="absolute w-[80%] h-[60%] bg-gradient-to-tr from-accent-500/20 to-primary-500/20 rounded-full blur-[70px] animate-pulse" />
 
-            {/* Image Container */}
             <div className="relative w-[320px] h-[640px] flex items-center justify-center">
               {images.map((img, i) => (
-                <img
+                <motion.img
                   key={i}
                   src={img}
                   alt={`App Screenshot ${i}`}
-                  className={`absolute w-full h-auto object-contain transition-all duration-700 ease-in-out drop-shadow-2xl ${
-                    i === currentImage
-                      ? "opacity-100 scale-100 translate-y-0"
-                      : "opacity-0 scale-95 translate-y-8"
-                  }`}
+                  initial={false}
+                  animate={{
+                    opacity: i === currentImage ? 1 : 0,
+                    scale: i === currentImage ? 1 : 0.95,
+                    y: i === currentImage ? 0 : 32,
+                  }}
+                  transition={{ duration: 0.7, ease: "easeInOut" }}
+                  className="absolute w-full h-auto object-contain drop-shadow-2xl"
                 />
               ))}
             </div>
 
-            {/* Floating Elements */}
-            <div
-              className="absolute right-8 top-1/3 animate-float"
-              style={{ animationDuration: "6s" }}
+            <motion.div
+              animate={{ y: [0, -15, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute right-8 top-1/3"
             >
               <div className="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-xl min-w-[180px]">
                 <div className="text-xs text-gray-400 mb-1">Total Balance</div>
                 <div className="text-xl font-bold text-white mb-3">
                   $6,255.00
                 </div>
-
-                {/* Breakdown List */}
                 <div className="space-y-2 border-t border-white/10 pt-2">
                   <div className="flex justify-between items-center text-xs">
                     <div className="flex items-center gap-1.5">
@@ -192,11 +188,17 @@ export default function Hero() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div
-              className="absolute left-8 bottom-1/4 animate-float"
-              style={{ animationDelay: "1s", animationDuration: "7s" }}
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{
+                duration: 7,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1,
+              }}
+              className="absolute left-8 bottom-1/4"
             >
               <div className="bg-accent-500 text-black p-4 rounded-2xl shadow-xl flex items-center gap-3">
                 <div className="bg-black/10 p-2 rounded-full">
@@ -209,7 +211,7 @@ export default function Hero() {
                   <div className="text-sm font-bold">Instant & Free</div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
