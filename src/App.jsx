@@ -4,7 +4,7 @@ import Header from "./components/Header"
 import Hero from "./components/Hero"
 import Partners from "./components/Partners"
 import Features from "./components/Features"
-import MarketOpportunity from "./components/MarketOpportunity"
+
 import Traction from "./components/Traction"
 import About from "./components/About"
 import Footer from "./components/Footer"
@@ -16,6 +16,7 @@ import FAQ from "./components/FAQ"
 import RegulatoryNote from "./components/Regulatory"
 import TokenizedRWA from "./components/TokenizedRWA"
 import ParallaxSection from "./components/ParralaxSection"
+import MarketOpportunity from "./components/market/MarketOpportunity"
 
 // Home page component
 const HomePage = () => {
