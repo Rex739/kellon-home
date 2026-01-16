@@ -1,207 +1,138 @@
+"use client"
 import React from "react"
-import { useSpring, animated, config } from "@react-spring/web"
-import { useInView } from "react-intersection-observer"
-import { Users, DollarSign, Shield, Target } from "lucide-react"
+import { motion } from "framer-motion"
 import ChainSlider from "./ChainSlider"
 
-/* =======================
-   Metric Card
-======================= */
-const MetricCard = ({ icon: Icon, metric, label, sub, index }) => {
-  const [ref, inView] = useInView({
-    threshold: 0.2,
-    triggerOnce: true,
-  })
-
-  const spring = useSpring({
-    opacity: inView ? 1 : 0,
-    transform: inView ? "translateY(0px)" : "translateY(16px)",
-    config: config.gentle,
-    delay: index * 120,
-  })
+export default function SupportedAssets() {
+  // SEO: Define supported assets schema
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Supported Assets",
+    description: "Digital stablecoins supported for instant settlement.",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "USDT (Tether)",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "USDC (USD Coin)",
+      },
+    ],
+  }
 
   return (
-    <animated.div
-      ref={ref}
-      style={spring}
-      className="
-        relative rounded-2xl p-6
-        bg-white/5 backdrop-blur-xl
-        border border-white/10
-        shadow-lg
-        hover:border-white/20 hover:scale-[1.02]
-        transition
-      "
+    <section
+      className="relative w-full pt-16 bg-primary-800 overflow-hidden"
+      aria-label="Supported Assets and Network Infrastructure"
     >
-      <div className="flex items-center gap-4 mb-4">
-        <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
-          <Icon className="w-6 h-6 text-accent-400" />
-        </div>
+      {/* SEO Script */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-        <div>
-          <div className="text-2xl font-bold text-white">{metric}</div>
-          <div className="text-sm text-gray-400">{label}</div>
-        </div>
+      {/* --- 1. BACKGROUND LAYERS (Decorative -> Hidden from SR) --- */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        {/* Grain */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+
+        {/* Deep Lighting (GPU Accelerated) */}
+        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[150%] md:w-[1000px] h-[500px] md:h-[600px] bg-primary-800/30 rounded-full blur-[100px] md:blur-[120px] transform-gpu" />
+
+        {/* Tech Grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] md:bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)]" />
       </div>
 
-      <div className="text-sm text-gray-500">{sub}</div>
-    </animated.div>
-  )
-}
+      <div className="relative z-10 w-full">
+        {/* --- 2. HEADER CONTENT --- */}
+        <div className="max-w-4xl mx-auto px-6 text-center mb-6 md:mb-8">
+          {/* Top Label */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex items-center justify-center gap-3 mb-6 md:mb-8"
+            role="presentation"
+          >
+            <div className="h-px w-8 md:w-12 bg-gradient-to-r from-transparent to-accent-500/50" />
+            <span className="text-[10px] md:text-xs font-bold text-accent-400 uppercase tracking-[0.2em] whitespace-nowrap">
+              Network Infrastructure
+            </span>
+            <div className="h-px w-8 md:w-12 bg-gradient-to-l from-transparent to-accent-500/50" />
+          </motion.div>
 
-/* =======================
-   Traction Section
-======================= */
-export default function Traction() {
-  const metrics = [
-    {
-      icon: Users,
-      metric: "5,000+",
-      label: "Waitlist Users",
-      sub: "Organic pre-launch growth",
-    },
-    {
-      icon: DollarSign,
-      metric: "USDT / USDC",
-      label: "Stable Assets",
-      sub: "Multi-chain liquidity",
-    },
-    {
-      icon: Shield,
-      metric: "99.9%",
-      label: "Security Score",
-      sub: "Bank-grade protection",
-    },
-    {
-      icon: Target,
-      metric: "50+",
-      label: "Target Countries",
-      sub: "Launch-ready markets",
-    },
-  ]
+          {/* Info Badge (USDT/USDC Focus) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="inline-flex flex-col sm:flex-row items-center gap-4 p-1.5 pr-6 rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-md mx-auto"
+          >
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 border border-white/5 w-full sm:w-auto justify-center">
+              {/* Mock Asset Icons (Hidden from Screen Readers to avoid "T C" reading) */}
+              <div className="flex -space-x-2 shrink-0" aria-hidden="true">
+                <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-[8px] font-bold text-white border border-black shadow-sm">
+                  T
+                </div>
+                <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[8px] font-bold text-white border border-black shadow-sm">
+                  C
+                </div>
+              </div>
 
-  const [headerRef, headerInView] = useInView({
-    threshold: 0.3,
-    triggerOnce: true,
-  })
-
-  const headerSpring = useSpring({
-    opacity: headerInView ? 1 : 0,
-    transform: headerInView ? "translateY(0px)" : "translateY(20px)",
-    config: config.molasses,
-  })
-
-  return (
-    <section className="relative pt-12 px-4 sm:px-6 lg:px-8 bg-primary-800 overflow-hidden">
-      {/* =======================
-          NETWORK BACKGROUND
-      ======================= */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
-
-        {/* Lines */}
-        {[25, 50, 75].map((y) => (
-          <div
-            key={y}
-            className="absolute left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-500/10 to-transparent"
-            style={{ top: `${y}%` }}
-          />
-        ))}
-
-        {[25, 50, 75].map((x) => (
-          <div
-            key={x}
-            className="absolute top-0 h-full w-px bg-gradient-to-b from-transparent via-primary-500/10 to-transparent"
-            style={{ left: `${x}%` }}
-          />
-        ))}
-
-        {/* Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-56 h-56 bg-accent-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 right-1/4 w-56 h-56 bg-primary-500/10 rounded-full blur-3xl" />
-      </div>
-
-      {/* =======================
-          CONTENT
-      ======================= */}
-      <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
-        {/* LEFT — COPY */}
-        <div className="lg:col-span-5 relative">
-          {/* Glass slab */}
-         
-
-          {/* Accent orb */}
-          <div className="absolute -top-12 -left-12 w-40 h-40 bg-accent-500/20 rounded-full blur-3xl" />
-
-          <animated.div ref={headerRef} style={headerSpring}>
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6 font-bungee leading-tight">
-              Building <br />
-              <span className="gradient-text">Momentum</span>
-            </h2>
-
-            {/* Divider */}
-            <div className="flex items-center gap-4 mb-6">
-              <span className="h-px w-12 bg-gradient-to-r from-accent-400 to-transparent" />
-              <span className="text-xs tracking-widest text-gray-400 uppercase">
-                Early Traction
-              </span>
+              {/* Accessible Text */}
+              <h2 className="text-sm font-bold text-white whitespace-nowrap m-0">
+                USDT & USDC
+              </h2>
             </div>
 
-            <p className="text-lg text-gray-300 leading-relaxed max-w-md">
-              Strong pre-launch indicators show growing market demand and
-              investor confidence in a{" "}
-              <span className="text-white font-medium">
-                scalable, compliant financial network
-              </span>
-              .
+            <p className="text-sm text-primary-200 font-medium text-center sm:text-left px-2 sm:px-0">
+              Instant settlement on{" "}
+              <span className="text-white font-semibold">5+ networks</span> with
+              zero friction.
             </p>
-          </animated.div>
+          </motion.div>
         </div>
 
-        {/* RIGHT — METRICS */}
-        <div className="lg:col-span-7 relative">
-          {/* Floating shape */}
-          <div className="absolute top-1/2 right-12 w-48 h-48 bg-primary-500/20 rounded-full blur-3xl" />
+        {/* --- 3. SLIDER VISUAL --- */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="relative w-full border-y border-white/5 backdrop-blur-sm"
+        >
+          {/* Glowing Rails (Decorative) */}
+          <div
+            className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-accent-500/50 to-transparent opacity-50"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-500/50 to-transparent opacity-50"
+            aria-hidden="true"
+          />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {metrics.map((item, index) => (
-              <div
-                key={index}
-                className={index % 2 === 1 ? "sm:translate-y-10" : ""}
-              >
-                <MetricCard {...item} index={index} />
-              </div>
-            ))}
+          {/* The Slider Container */}
+          <div className="relative">
+            {/* Fade Masks */}
+            <div
+              className="absolute inset-y-0 left-0 w-16 md:w-48 bg-gradient-to-r from-primary-800 to-transparent z-10 pointer-events-none"
+              aria-hidden="true"
+            />
+            <div
+              className="absolute inset-y-0 right-0 w-16 md:w-48 bg-gradient-to-l from-primary-800 to-transparent z-10 pointer-events-none"
+              aria-hidden="true"
+            />
+
+            {/* Imported Slider */}
+            <ChainSlider />
           </div>
-        </div>
+        </motion.div>
       </div>
-
-      {/* =======================
-          SUPPORTED ASSETS COPY
-      ======================= */}
-      <div className="relative z-10 text-center mt-24 mb-10">
-        <div className="flex items-center justify-center gap-4 mb-6">
-          <span className="h-px w-12 bg-gradient-to-r from-transparent via-accent-400/40 to-transparent" />
-          <span className="text-xs tracking-widest text-gray-400 uppercase">
-            Supported Assets
-          </span>
-          <span className="h-px w-12 bg-gradient-to-r from-transparent via-accent-400/40 to-transparent" />
-        </div>
-
-        <p className="text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-          USDT and USDC available across leading blockchain networks,
-          <span className="text-white font-medium">
-            {" "}
-            optimized for scale, compliance, and deep liquidity
-          </span>
-          .
-        </p>
-      </div>
-
-      {/* =======================
-          CHAIN SLIDER
-      ======================= */}
-      <ChainSlider />
     </section>
   )
 }

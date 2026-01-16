@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from "react"
-import { useSpring, animated } from "@react-spring/web"
-import { ArrowRight, Play } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { ArrowRight, Star, Globe, Shield, Zap } from "lucide-react"
 
+// --- DATA ---
 const headlines = [
   "Borderless Payments",
   "Crypto–Native Global Investments",
@@ -9,40 +10,37 @@ const headlines = [
 ]
 
 const images = [
-  "https://res.cloudinary.com/dcxghlgre/image/upload/v1763309715/kellon/Kellon1_ywmpbx.jpg",
-  "https://res.cloudinary.com/dcxghlgre/image/upload/v1763309713/kellon/Kellon2_wrlszn.jpg",
-  "https://res.cloudinary.com/dcxghlgre/image/upload/v1763309710/kellon/Kellon3_afx7vr.jpg",
-  "https://res.cloudinary.com/dcxghlgre/image/upload/v1763309708/kellon/Kellon4_ha42ye.jpg",
+  "https://res.cloudinary.com/dcxghlgre/image/upload/v1767998142/kellon/Mockuuups_Free_Google_Pixel_10_Pro_Mockup_mlymet.png",
+  "https://res.cloudinary.com/dcxghlgre/image/upload/v1767971954/kellon/Mockuuups_Free_Google_Pixel_10_Pro_Mockup_uwpoux.png",
+  "https://res.cloudinary.com/dcxghlgre/image/upload/v1767971954/kellon/Mockuuups_Free_Google_Pixel_10_Pro_Mockup_anpi27.png",
+  "https://res.cloudinary.com/dcxghlgre/image/upload/v1767971955/kellon/Mockuuups_Free_Google_Pixel_10_Pro_Mockup_mwypva.png",
 ]
 
 export default function Hero() {
   const containerRef = useRef(null)
   const [currentImage, setCurrentImage] = useState(0)
   const [currentHeadline, setCurrentHeadline] = useState(0)
-  const [fade, setFade] = useState(true)
 
-  // Looping headline animation
+  // 1. Headline Loop
   useEffect(() => {
     const interval = setInterval(() => {
-      setFade(false)
-      setTimeout(() => {
-        setCurrentHeadline((prev) => (prev + 1) % headlines.length)
-        setFade(true)
-      }, 500)
-    }, 3000)
+      setCurrentHeadline((prev) => (prev + 1) % headlines.length)
+    }, 5000)
     return () => clearInterval(interval)
   }, [])
 
-  // Scroll-driven image change
+  // 2. Scroll-driven Image Switch
   useEffect(() => {
     const onScroll = () => {
       if (!containerRef.current) return
+      if (window.innerWidth < 1024) return
+
       // @ts-ignore
       const rect = containerRef.current.getBoundingClientRect()
       const scrollTop = -rect.top
       const sectionHeight = rect.height / images.length
       const index = Math.min(
-        Math.floor(scrollTop / sectionHeight),
+        Math.max(0, Math.floor(scrollTop / sectionHeight)),
         images.length - 1
       )
       setCurrentImage(index)
@@ -50,12 +48,6 @@ export default function Hero() {
     window.addEventListener("scroll", onScroll)
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
-
-  const headlineSpring = useSpring({
-    opacity: fade ? 1 : 0,
-    transform: fade ? "translateY(0px)" : "translateY(-20px)",
-    config: { duration: 500 },
-  })
 
   const scrollToWaitlist = () => {
     const footer = document.querySelector("footer")
@@ -70,148 +62,156 @@ export default function Hero() {
   }
 
   return (
-    <section ref={containerRef} className="relative 2xl:min-h-[400dvh]">
-      {/* Parent-level connection SVG */}
-      <svg
-        className="absolute w-full h-full top-0 left-0 pointer-events-none z-0"
-        viewBox="0 0 1200 800"
-        fill="none"
-      >
-        <circle cx="200" cy="150" r="8" fill="#8b5cf6" opacity="0.2" />
-        <circle cx="1000" cy="100" r="8" fill="#f472b6" opacity="0.2" />
-        <circle cx="600" cy="700" r="8" fill="#facc15" opacity="0.2" />
-        <circle cx="800" cy="400" r="8" fill="#22d3ee" opacity="0.2" />
-        <line
-          x1="200"
-          y1="150"
-          x2="800"
-          y2="400"
-          stroke="#8b5cf6"
-          strokeWidth="1"
-          opacity="0.1"
-        />
-        <line
-          x1="1000"
-          y1="100"
-          x2="800"
-          y2="400"
-          stroke="#f472b6"
-          strokeWidth="1"
-          opacity="0.1"
-        />
-        <line
-          x1="600"
-          y1="700"
-          x2="800"
-          y2="400"
-          stroke="#facc15"
-          strokeWidth="1"
-          opacity="0.1"
-        />
-      </svg>
+    <section
+      ref={containerRef}
+      className="relative min-h-screen lg:h-[400vh] bg-primary-900"
+    >
+      <div className="relative lg:sticky lg:top-0 w-full min-h-screen lg:h-screen overflow-hidden flex items-center justify-center py-20 lg:py-0">
+        {/* --- BACKGROUND --- */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-accent-500/10 rounded-full blur-[120px]" />
+          <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px] opacity-20" />
+          <div className="absolute top-1/4 left-1/2 opacity-20 text-accent-400 animate-pulse">
+            <Star size={40} fill="currentColor" />
+          </div>
+        </div>
 
-      <div className="sticky top-0 w-full h-screen flex justify-center items-center overflow-hidden bg-black z-10">
-        {/* 2-column layout */}
-        <div className="relative flex flex-col lg:flex-row items-center justify-center w-full h-full max-w-7xl px-6 gap-12 z-20">
-          {/* Left: text + CTA */}
-          <div className="flex-1 flex flex-col justify-center text-center lg:text-left max-w-lg z-10">
-            <animated.h1
-              style={headlineSpring}
-              className="text-4xl xs:text-[50px] sm:text-6xl lg:text-8xl font-extrabold font-bungee leading-tight text-white tracking-tighter"
-            >
-              {headlines[currentHeadline]}
-            </animated.h1>
+        <div className="relative w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full z-10">
+          {/* --- LEFT: TEXT --- */}
+          <div className="flex flex-col justify-center h-full pt-10 lg:pt-0">
+            <div className="mb-8">
+              <span className="px-4 py-2 rounded-full border border-accent-500/30 bg-accent-500/10 text-accent-400 text-sm font-bold uppercase tracking-wider">
+                Kellon Mobile
+              </span>
+            </div>
 
-            <p className="my-6 text-white/80 text-xl leading-relaxed font-normal ">
+            {/* IMPROVED SPACING CONTAINER:
+              1. min-h adjusted to fit max text height without huge gaps.
+              2. justify-end ensures text grows UP, keeping the gap to the paragraph consistent.
+            */}
+            <div className="min-h-[140px] md:min-h-[180px] flex flex-col justify-end mb-6">
+              <AnimatePresence mode="wait">
+                <motion.h1
+                  key={currentHeadline}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="text-5xl md:text-7xl font-extrabold font-bungee leading-[1.05] tracking-tight text-white"
+                >
+                  {headlines[currentHeadline]}
+                </motion.h1>
+              </AnimatePresence>
+            </div>
+
+            <p className="text-xl text-gray-300 leading-relaxed mb-10 max-w-lg">
               Kellon Mobile empowers you with a non-custodial wallet for
               borderless payments, tokenized asset management, and global
-              investments - all in one secure, intuitive app
+              investments - all in one secure, intuitive app.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4  justify-center lg:justify-start">
+            <div className="relative z-20">
               <button
                 onClick={scrollToWaitlist}
-                className="px-6 py-3 flex items-center justify-center gap-2 bg-gradient-to-r from-accent-400 to-primary-800 rounded-md text-white hover:from-accent-500 hover:to-primary-900 transition-all duration-300 font-semibold"
+                className="group relative px-8 py-4 bg-accent-500 hover:bg-accent-400 text-primary-950 rounded-full font-bold text-lg transition-all shadow-[0_0_40px_rgba(234,179,8,0.3)] hover:shadow-[0_0_60px_rgba(234,179,8,0.5)] flex items-center gap-2 w-fit"
               >
                 Join Waitlist
-                {/* <ArrowRight className="w-5 h-5" /> */}
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
-             
+
+              <div className="mt-16 pt-8 border-t border-white/10 hidden sm:block">
+                <p className="text-sm font-semibold text-gray-400 mb-4 uppercase tracking-wider">
+                  Trusted Infrastructure
+                </p>
+                <div className="flex gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                  <div className="flex items-center gap-2 text-white font-bold">
+                    <Globe size={24} /> GlobalNet
+                  </div>
+                  <div className="flex items-center gap-2 text-white font-bold">
+                    <Shield size={24} /> SecureChain
+                  </div>
+                  <div className="flex items-center gap-2 text-white font-bold">
+                    <Zap size={24} /> FlashPay
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Right: images (hidden on mobile) */}
-          <div className="hidden lg:flex flex-1 justify-center items-center relative w-full h-full">
-            {/* Connection vector SVG */}
-            <svg
-              className="absolute w-full h-full top-0 left-0 pointer-events-none"
-              viewBox="0 0 600 600"
-              fill="none"
-            >
-              <circle cx="100" cy="100" r="5" fill="#8b5cf6" opacity="0.6" />
-              <circle cx="500" cy="150" r="5" fill="#f472b6" opacity="0.6" />
-              <circle cx="300" cy="500" r="5" fill="#facc15" opacity="0.6" />
-              <circle cx="400" cy="300" r="5" fill="#22d3ee" opacity="0.6" />
-              <line
-                x1="100"
-                y1="100"
-                x2="400"
-                y2="300"
-                stroke="#8b5cf6"
-                strokeWidth="2"
-                opacity="0.3"
-              />
-              <line
-                x1="500"
-                y1="150"
-                x2="400"
-                y2="300"
-                stroke="#f472b6"
-                strokeWidth="2"
-                opacity="0.3"
-              />
-              <line
-                x1="300"
-                y1="500"
-                x2="400"
-                y2="300"
-                stroke="#facc15"
-                strokeWidth="2"
-                opacity="0.3"
-              />
-            </svg>
+          {/* --- RIGHT: MOCKUP --- */}
+          <div className="hidden lg:flex items-center justify-center relative h-full">
+            <div className="absolute w-[80%] h-[60%] bg-gradient-to-tr from-accent-500/20 to-primary-500/20 rounded-full blur-[70px] animate-pulse" />
 
-            {/* Layered background blobs */}
-            <div className="absolute w-[60%] h-[60%] bg-gradient-to-br from-accent-400 to-primary-400 rounded-full blur-3xl opacity-30 animate-float"></div>
-            <div
-              className="absolute w-[50%] h-[50%] top-10 left-10 bg-gradient-to-tl from-purple-400 to-pink-400 rounded-full blur-2xl opacity-20 animate-float"
-              style={{ animationDelay: "1s" }}
-            ></div>
-            <div
-              className="absolute w-[40%] h-[40%] bottom-10 right-20 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full blur-2xl opacity-15 animate-float"
-              style={{ animationDelay: "2s" }}
-            ></div>
-
-            {images.map((img, i) => (
-              <div
-                key={i}
-                className="absolute w-full h-full flex justify-center items-center"
-              >
-                <animated.img
+            <div className="relative w-[320px] h-[640px] flex items-center justify-center">
+              {images.map((img, i) => (
+                <motion.img
+                  key={i}
                   src={img}
-                  alt={`App screenshot ${i + 1}`}
-                  className={`w-[45%] lg:w-[50%] rounded-3xl shadow-2xl transition-opacity duration-500 transform ${
-                    i === currentImage ? "scale-105" : "scale-100"
-                  }`}
-                  style={{ opacity: i === currentImage ? 1 : 0 }}
+                  alt={`App Screenshot ${i}`}
+                  initial={false}
+                  animate={{
+                    opacity: i === currentImage ? 1 : 0,
+                    scale: i === currentImage ? 1 : 0.95,
+                    y: i === currentImage ? 0 : 32,
+                  }}
+                  transition={{ duration: 0.7, ease: "easeInOut" }}
+                  className="absolute w-full h-auto object-contain drop-shadow-2xl"
                 />
+              ))}
+            </div>
 
-                {/* Opaque overlay */}
-                {i === currentImage && (
-                  <div className="absolute inset-0 bg-black/30 pointer-events-none "></div>
-                )}
+            <motion.div
+              animate={{ y: [0, -15, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute right-8 top-1/3"
+            >
+              <div className="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-xl min-w-[180px]">
+                <div className="text-xs text-gray-400 mb-1">Total Balance</div>
+                <div className="text-xl font-bold text-white mb-3">
+                  $6,255.00
+                </div>
+                <div className="space-y-2 border-t border-white/10 pt-2">
+                  <div className="flex justify-between items-center text-xs">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2 h-2 rounded-full bg-blue-400"></div>
+                      <span className="text-gray-300">USDC</span>
+                    </div>
+                    <span className="text-white font-mono">$3,280.50</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                      <span className="text-gray-300">USDT</span>
+                    </div>
+                    <span className="text-white font-mono">$2,974.50</span>
+                  </div>
+                </div>
               </div>
-            ))}
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{
+                duration: 7,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1,
+              }}
+              className="absolute left-8 bottom-1/4"
+            >
+              <div className="bg-accent-500 text-black p-4 rounded-2xl shadow-xl flex items-center gap-3">
+                <div className="bg-black/10 p-2 rounded-full">
+                  <Zap size={16} />
+                </div>
+                <div>
+                  <div className="text-xs font-bold opacity-70">
+                    Transfer Sent
+                  </div>
+                  <div className="text-sm font-bold">Instant & Free</div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>

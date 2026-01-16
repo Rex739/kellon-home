@@ -1,107 +1,128 @@
 "use client"
-
-import React from "react"
-import { Parallax, ParallaxLayer } from "@react-spring/parallax"
+import React, { useRef, useState, useEffect, memo } from "react"
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useMotionTemplate,
+  useMotionValue,
+} from "framer-motion"
 import TokenizedRWA from "./TokenizedRWA"
 import RegulatoryNote from "./Regulatory"
-import Traction from "./Traction"
+
+// --- VECTOR BACKGROUND (Memoized) ---
+const VectorLayer = memo(() => {
+  return (
+    <div
+      className="absolute inset-0 overflow-hidden pointer-events-none opacity-20"
+      aria-hidden="true" // Hides from screen readers
+    >
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+    </div>
+  )
+})
+VectorLayer.displayName = "VectorLayer"
 
 export default function ParallaxSection() {
+  const containerRef = useRef(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024)
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  })
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 60,
+    damping: 20,
+    restDelta: 0.001,
+  })
+
+  // Desktop Parallax Transforms
+  const layer1Opacity = useTransform(smoothProgress, [0, 0.4, 0.5], [1, 1, 0])
+  const layer1Scale = useTransform(smoothProgress, [0, 0.45], [1, 0.9])
+  const layer1Y = useTransform(smoothProgress, [0, 0.45], [0, -50])
+
+  const layer2Opacity = useTransform(smoothProgress, [0.45, 0.55, 1], [0, 1, 1])
+  const layer2Scale = useTransform(smoothProgress, [0.55, 1], [0.9, 1])
+  const layer2Y = useTransform(smoothProgress, [0.45, 1], [50, 0])
+
+  // Mouse Spotlight
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+
+  // @ts-ignore
+  const handleMouseMove = (e) => {
+    const { left, top } = e.currentTarget.getBoundingClientRect()
+    mouseX.set(e.clientX - left)
+    mouseY.set(e.clientY - top)
+  }
+
+  const spotlightBg = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(29, 78, 216, 0.08), transparent 80%)`
+
   return (
-    <section className="relative w-full h-[100dvh] bg-primary-900 overflow-hidden">
-      {/* Grid Background Vector for Parallax Container */}
-      <div className="absolute inset-0">
-        {/* Grid Net Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
-
-        {/* Connection Lines */}
-        <div className="absolute inset-0">
-          {/* Horizontal Lines */}
-          <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-500/10 to-transparent"></div>
-          <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary-500/10 to-transparent"></div>
-          <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-500/10 to-transparent"></div>
-
-          {/* Vertical Lines */}
-          <div className="absolute left-1/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-primary-500/10 to-transparent"></div>
-          <div className="absolute left-1/2 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent-500/10 to-transparent"></div>
-          <div className="absolute left-3/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-primary-500/10 to-transparent"></div>
+    <section
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      aria-label="Features and Regulation"
+      className={`relative bg-primary-900 ${
+        isMobile ? "py-24 overflow-hidden" : "h-[300vh]"
+      }`}
+    >
+      {/* GLOBAL BACKGROUND */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0"
+        aria-hidden="true"
+      >
+        <VectorLayer />
+        <motion.div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{ background: spotlightBg }}
+        />
+        <div className="sticky top-0 h-screen overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary-800/30 rounded-full blur-[120px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent-500/10 rounded-full blur-[120px]" />
         </div>
-
-        {/* Floating Nodes/Connection Points */}
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-accent-400/30 rounded-full"></div>
-        <div className="absolute top-1/4 left-1/2 w-1.5 h-1.5 bg-primary-400/40 rounded-full"></div>
-        <div className="absolute top-1/4 left-3/4 w-2 h-2 bg-accent-400/30 rounded-full"></div>
-
-        <div className="absolute top-1/2 left-1/4 w-1.5 h-1.5 bg-primary-400/40 rounded-full"></div>
-        <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-accent-400/50 rounded-full"></div>
-        <div className="absolute top-1/2 left-3/4 w-1.5 h-1.5 bg-primary-400/40 rounded-full"></div>
-
-        <div className="absolute top-3/4 left-1/4 w-2 h-2 bg-accent-400/30 rounded-full"></div>
-        <div className="absolute top-3/4 left-1/2 w-1.5 h-1.5 bg-primary-400/40 rounded-full"></div>
-        <div className="absolute top-3/4 left-3/4 w-2 h-2 bg-accent-400/30 rounded-full"></div>
-
-        {/* Gradient Orbs for Depth */}
-        <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-accent-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-accent-500/3 to-primary-500/3 rounded-full blur-3xl"></div>
       </div>
 
-      {/* Transparent overlay */}
-      <div className="absolute inset-0 bg-black/40 z-0"></div>
-
-      <Parallax
-        pages={2}
-        className="relative z-20 [&>div]:[pointer-events:auto]"
-      >
-        {/* TokenizedRWA - First Page */}
-        <ParallaxLayer
-          offset={0}
-          speed={0.5}
-          factor={1}
-          style={{ pointerEvents: "auto" }}
-        >
-          <div className="relative w-full h-full pointer-events-auto">
+      {isMobile ? (
+        // --- MOBILE LAYOUT ---
+        <div className="relative z-10 flex flex-col gap-24">
+          <div className="w-full">
             <TokenizedRWA />
           </div>
-        </ParallaxLayer>
-
-        {/* RegulatoryNote - Second Page */}
-        <ParallaxLayer
-          offset={1}
-          speed={0.8}
-          factor={1}
-          style={{ pointerEvents: "auto" }}
-        >
-          <div className="relative w-full h-full pointer-events-auto">
+          <div className="w-full  pt-24">
             <RegulatoryNote />
           </div>
-        </ParallaxLayer>
+        </div>
+      ) : (
+        // --- DESKTOP LAYOUT ---
+        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center z-10">
+          <motion.div
+            style={{ opacity: layer1Opacity, scale: layer1Scale, y: layer1Y }}
+            className="absolute inset-0 flex items-center justify-center"
+            aria-hidden={layer1Opacity.get() === 0} // Hide from screen readers when invisible
+          >
+            <TokenizedRWA />
+          </motion.div>
 
-        {/* Optional: Additional background layers for parallax effect */}
-        <ParallaxLayer
-          offset={0}
-          speed={-0.3}
-          factor={2}
-          style={{ pointerEvents: "none" }}
-        >
-          <div className="absolute inset-0">
-            <div className="absolute top-20 left-20 w-32 h-32 bg-accent-400/5 rounded-full blur-2xl"></div>
-            <div className="absolute bottom-20 right-20 w-32 h-32 bg-primary-400/5 rounded-full blur-2xl"></div>
-          </div>
-        </ParallaxLayer>
-
-        <ParallaxLayer
-          offset={0.5}
-          speed={0.2}
-          factor={2}
-          style={{ pointerEvents: "none" }}
-        >
-          <div className="absolute inset-0">
-            <div className="absolute top-40 right-40 w-24 h-24 bg-accent-400/10 rounded-full blur-xl"></div>
-            <div className="absolute bottom-40 left-40 w-24 h-24 bg-primary-400/10 rounded-full blur-xl"></div>
-          </div>
-        </ParallaxLayer>
-      </Parallax>
+          <motion.div
+            style={{ opacity: layer2Opacity, scale: layer2Scale, y: layer2Y }}
+            className="absolute inset-0 flex items-center justify-center"
+            aria-hidden={layer2Opacity.get() === 0}
+          >
+            <RegulatoryNote />
+          </motion.div>
+        </div>
+      )}
     </section>
   )
 }

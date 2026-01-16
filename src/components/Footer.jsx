@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { Mail, Github, Linkedin, ArrowRight } from "lucide-react"
+import { Mail, Github, Linkedin, ArrowRight, Send, MapPin } from "lucide-react"
 import SuccessModal from "./SuccessModal"
 import { XIcon } from "../lib/icons/LucideIcons"
 import { waitlistService } from "../lib/services/firebase"
@@ -62,98 +62,130 @@ const Footer = () => {
 
   return (
     <footer
-      className="bg-primary-800 border-t border-white/10 relative overflow-hidden"
+      className="bg-primary-800 border-t border-white/5 relative overflow-hidden pt-20 pb-10"
       id="contact"
     >
-      {/* Background Accent */}
-      <div className="absolute left-1/2 top-0 w-[900px] h-[900px] -translate-x-1/2 bg-primary/20 blur-[180px] rounded-full opacity-40 pointer-events-none"></div>
+      {/* --- BACKGROUND LAYERS --- */}
+      <div className="absolute inset-0 pointer-events-none select-none">
+        {/* Noise Texture */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5 mix-blend-overlay" />
 
-      {/* Newsletter Section */}
-      <div className="border-white/10 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto lg:text-center">
-          <h3 className="text-3xl font-bold text-white mb-3 font-bungee">
-            Join Our Waitlist
-          </h3>
-          <p className="text-gray-400 max-w-xl mx-auto mb-6">
-            Get early access and updates before launch. No spam. No noise.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value)
-                setError("")
-              }}
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:border-primary-500 outline-none"
-            />
-
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="px-6 py-3 bg-primary-600 hover:bg-primary-500 rounded-xl text-white font-medium flex items-center justify-center gap-2 transition"
-            >
-              {isSubmitting ? (
-                <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
-              ) : (
-                <>
-                  Join
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
-          </div>
-
-          {error && <p className="text-red-400 text-sm mt-3">{error}</p>}
+        {/* Giant Watermark */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-[15vw] font-black font-bungee text-white/[0.02] leading-none whitespace-nowrap select-none pointer-events-none">
+          KELLON FINANCE
         </div>
+
+        {/* Ambient Glows */}
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary-900/20 blur-[120px] rounded-full mix-blend-screen" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-accent-900/10 blur-[120px] rounded-full mix-blend-screen" />
       </div>
 
-      {/* Main Footer */}
-      <div className="max-w-6xl mx-auto py-14 px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-12">
-        {/* Brand */}
-        <div className="text-center md:text-left">
-          <div
-            className="flex items-center justify-center md:justify-start gap-3 cursor-pointer mb-4"
-            onClick={() => navigate("/")}
-          >
-            <img src="/logo.png?v=20251108" className="w-12 h-12" />
-            <span className="text-2xl font-bold text-white">Kellon</span>
-          </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        {/* --- 1. MEGA WAITLIST CARD --- */}
+        <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-white/5 p-8 md:p-16 text-center mb-24 group">
+          {/* Internal Glow */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
+          <div className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px] opacity-20 pointer-events-none" />
 
-          <div className="flex items-center mt-5 text-gray-400 gap-1 justify-center md:justify-start group">
-            <Mail className="w-4 h-4 group-hover:text-white" />
-            <span>
-              <a
-                target="_blank"
-                href="mailto:contact@kellon.xyz"
-                className="group-hover:text-white"
-              >
-                contact@kellon.xyz
-              </a>{" "}
-            </span>
-          </div>
-          <div>
-            <p className="text-gray-400">
-              10 Villa Avenue, Ibeju-lekki. Lagos, Nigeria
+          <div className="relative z-10 max-w-2xl mx-auto">
+            <h3 className="text-4xl md:text-5xl font-bold text-white mb-6 font-bungee tracking-tight">
+              Ready to go <span className="text-accent-500">borderless?</span>
+            </h3>
+            <p className="text-xl text-gray-400 mb-10 leading-relaxed">
+              Join the early adopters shaping the future of global
+              finance. Get early access, exclusive updates, and priority
+              onboarding.
             </p>
+
+            {/* Input Field */}
+            <div className="relative max-w-md mx-auto group/input">
+              <div className="absolute inset-0 bg-accent-500/20 blur-xl rounded-full opacity-0 group-hover/input:opacity-100 transition-opacity duration-500" />
+              <div className="relative flex items-center bg-black/50 border border-white/10 rounded-full p-2 pl-6 focus-within:border-accent-500/50 focus-within:bg-black/80 transition-all duration-300">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                    setError("")
+                  }}
+                  placeholder="Enter your email address"
+                  className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none font-medium"
+                />
+                <button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className="p-3 bg-accent-500 hover:bg-accent-400 text-black rounded-full transition-transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <div className="animate-spin h-5 w-5 border-2 border-black border-t-transparent rounded-full" />
+                  ) : (
+                    <ArrowRight className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
+            </div>
+            {error && (
+              <p className="text-red-400 text-sm mt-4 font-medium">{error}</p>
+            )}
           </div>
         </div>
 
-        {/* Footer Links */}
-        <div className="grid grid-cols-2 gap-10 text-center md:text-left">
-          <div>
-            <h4 className="text-white font-semibold mb-4 tracking-wide">
-              Company
+        {/* --- 2. LINKS GRID --- */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 border-t border-white/10 pt-16 pb-12">
+          {/* Brand Column (Span 4) */}
+          <div className="md:col-span-4 flex flex-col items-start gap-6">
+            <div
+              className="flex items-center gap-3 cursor-pointer group"
+              onClick={() => navigate("/")}
+            >
+              <div className="relative">
+                <div className="absolute inset-0 bg-accent-500 blur opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
+                <img
+                  src="/logo.png?v=20251108"
+                  className="relative w-10 h-10 object-contain"
+                  alt="Kellon Logo"
+                />
+              </div>
+              <span className="text-2xl font-bold text-white font-bungee tracking-wider">
+                KELLON
+              </span>
+            </div>
+            <p className="text-gray-400 leading-relaxed max-w-sm">
+              Empowering the world with borderless payments, tokenized assets,
+              and true financial sovereignty.
+            </p>
+
+            {/* Socials */}
+            <div className="flex gap-3 mt-2">
+              {socialLinks.map((social) => {
+                const Icon = social.icon
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Navigation (Span 2) */}
+          <div className="md:col-span-2">
+            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs opacity-50">
+              Explore
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-4">
               {navLinks.map(({ label, sectionId }, i) => (
                 <li key={i}>
                   <Link
                     to="/"
                     state={{ scrollTo: sectionId }}
-                    className="text-gray-400 hover:text-white transition cursor-pointer capitalize"
+                    className="text-gray-400 hover:text-accent-400 transition-colors cursor-pointer text-sm font-medium block hover:translate-x-1 duration-300"
                   >
                     {label}
                   </Link>
@@ -162,16 +194,17 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div>
-            <h4 className="text-white font-semibold mb-4 tracking-wide">
-              Terms & Policies
+          {/* Legal (Span 2) */}
+          <div className="md:col-span-2">
+            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs opacity-50">
+              Legal
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-4">
               {DTPLinks.map(({ label, href }, i) => (
                 <li key={i}>
                   <Link
                     to={href}
-                    className="text-gray-400 hover:text-white transition cursor-pointer"
+                    className="text-gray-400 hover:text-accent-400 transition-colors cursor-pointer text-sm font-medium block hover:translate-x-1 duration-300"
                   >
                     {label}
                   </Link>
@@ -179,40 +212,51 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-        </div>
 
-        {/* Social */}
-        <div className="flex flex-col items-center md:items-end gap-4">
-          <h4 className="text-white font-semibold tracking-wide">Follow Us</h4>
-          <div className="flex gap-3">
-            {socialLinks.map((social) => {
-              const Icon = social.icon
-              return (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  className="w-10 h-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition"
-                >
-                  <Icon className="w-5 h-5" />
-                </a>
-              )
-            })}
+          {/* Contact Info (Span 4) */}
+          <div className="md:col-span-4">
+            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs opacity-50">
+              Contact
+            </h4>
+            <div className="flex flex-col gap-4">
+              <a
+                href="mailto:contact@kellon.xyz"
+                className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors group p-4 bg-white/5 border border-white/5 rounded-xl hover:border-white/10"
+              >
+                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white group-hover:bg-accent-500 group-hover:text-black transition-colors">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <span className="font-medium">contact@kellon.xyz</span>
+              </a>
+
+              <div className="flex items-start gap-3 text-gray-400 p-4 bg-white/5 border border-white/5 rounded-xl">
+                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white shrink-0 mt-1">
+                  <MapPin className="w-4 h-4" />
+                </div>
+                <span className="font-medium leading-relaxed">
+                  10 Villa Avenue, Ibeju-Lekki
+                  <br />
+                  Lagos, Nigeria
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-white/10 py-6 px-4 sm:px-6 lg:px-8">
-        <div className="text-gray-400 text-sm gap-3 text-center">
-          <span>&copy; 2025 Kellon. All rights reserved.</span>
+        {/* --- 3. BOTTOM BAR --- */}
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500 font-medium tracking-wide">
+          <span>&copy; 2025 Kellon Inc. All rights reserved.</span>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span>All Systems Operational</span>
+          </div>
         </div>
       </div>
 
       <SuccessModal
         isOpen={showSuccessModal}
         onClose={() => setShowSuccessModal(false)}
-        message="Thanks for joining our waitlist!"
+        message="Welcome aboard! You've successfully joined the waitlist."
       />
     </footer>
   )
