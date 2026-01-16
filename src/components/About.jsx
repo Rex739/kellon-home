@@ -12,8 +12,6 @@ import {
   Users,
   Rocket,
   ArrowRight,
-  Calendar,
-  Globe,
   ShieldCheck,
   Zap,
   Target,
@@ -39,7 +37,7 @@ const VALUES = [
   },
 ]
 
-// --- UTILITY: FLUID CARD ---
+// --- UTILITY: FLUID CARD (Optimized) ---
 const FluidCard = React.memo(({ children, className = "" }) => {
   const mouseX = useMotionValue(-1000)
   const mouseY = useMotionValue(-1000)
@@ -81,6 +79,7 @@ const FluidCard = React.memo(({ children, className = "" }) => {
       <motion.div
         className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100 will-change-[opacity]"
         style={{ background }}
+        aria-hidden="true" // Decorative gradient
       />
       <div className="relative h-full z-10">{children}</div>
     </div>
@@ -88,7 +87,7 @@ const FluidCard = React.memo(({ children, className = "" }) => {
 })
 FluidCard.displayName = "FluidCard"
 
-// --- SUB-COMPONENT: VALUE CARD ---
+// --- SUB-COMPONENT: VALUE CARD (Semantic & Accessible) ---
 const ValueCard = React.memo(({ data, index }) => {
   return (
     <motion.div
@@ -99,7 +98,10 @@ const ValueCard = React.memo(({ data, index }) => {
       className="h-full"
     >
       <FluidCard className="rounded-3xl p-8 h-full hover:bg-white/[0.07] transition-colors duration-300">
-        <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 text-white group-hover:bg-accent-500 group-hover:text-black group-hover:border-accent-400 transition-all duration-300 shadow-lg group-hover:shadow-accent-500/20">
+        <div
+          className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 text-white group-hover:bg-accent-500 group-hover:text-black group-hover:border-accent-400 transition-all duration-300 shadow-lg group-hover:shadow-accent-500/20"
+          aria-hidden="true" // Hide icon from screen reader
+        >
           <data.icon size={24} />
         </div>
         <h4 className="text-xl font-bold text-white mb-3">{data.title}</h4>
@@ -149,28 +151,39 @@ const About = () => {
     <section
       ref={containerRef}
       id="about"
-      className="relative bg-primary-900 pt-32 pb-0 overflow-hidden "
+      className="relative bg-primary-900 pt-32 pb-0 overflow-hidden"
+      aria-label="About Our Mission"
+      // SEO: Mark this as an Organization description
+      itemScope
+      itemType="https://schema.org/Organization"
     >
-      {/* --- BACKGROUND LAYERS --- */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none">
+      {/* --- BACKGROUND LAYERS (Optimized & Hidden from SR) --- */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none select-none"
+        aria-hidden="true"
+      >
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay will-change-[opacity]"></div>
+
+        {/* Decorative Scrolling Text */}
         <div className="absolute top-1/4 left-0 w-full opacity-[0.03] whitespace-nowrap overflow-hidden">
           <motion.div
-            style={{ x: bgTextX }}
-            className="text-[20vw] font-black font-bungee leading-none text-white will-change-transform"
+            style={{ x: bgTextX, z: 0 }} // z:0 forces GPU layer
+            className="text-[20vw] font-black font-bungee leading-none text-white will-change-transform transform-gpu"
           >
             BORDERLESS FINANCE • GLOBAL ACCESS • FUTURE READY •
           </motion.div>
         </div>
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary-900/20 rounded-full blur-[120px] will-change-transform" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-900/10 rounded-full blur-[120px] will-change-transform" />
+
+        {/* Blobs with GPU acceleration */}
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary-900/20 rounded-full blur-[120px] will-change-transform transform-gpu translate-z-0" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-900/10 rounded-full blur-[120px] will-change-transform transform-gpu translate-z-0" />
       </div>
 
-      <div className="max-w-7xl  mx-auto relative z-10 px-6">
+      <div className="max-w-7xl mx-auto relative z-10 px-6">
         {/* --- HEADER --- */}
         <motion.div
           style={{ y: headerY, opacity: headerOpacity }}
-          className="text-center  will-change-[transform,opacity]"
+          className="text-center will-change-[transform,opacity]"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8 hover:bg-white/10 transition-colors cursor-default">
             <span className="relative flex h-2 w-2">
@@ -201,14 +214,20 @@ const About = () => {
               {/* Mission Block */}
               <div className="mb-10">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 bg-accent-500/10 rounded-lg text-accent-400">
+                  <div
+                    className="p-2 bg-accent-500/10 rounded-lg text-accent-400"
+                    aria-hidden="true"
+                  >
                     <Target size={24} />
                   </div>
                   <h3 className="text-2xl font-bold text-white uppercase tracking-wide">
                     Our Mission
                   </h3>
                 </div>
-                <p className="text-xl text-gray-300 leading-relaxed font-light">
+                <p
+                  className="text-xl text-gray-300 leading-relaxed font-light"
+                  itemProp="description" // SEO: Description of the Org
+                >
                   To make global financial tools accessible to anyone, anywhere,{" "}
                   <span className="text-white font-medium">
                     without barriers or complexity
@@ -223,7 +242,10 @@ const About = () => {
               {/* Vision Block */}
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+                  <div
+                    className="p-2 bg-blue-500/10 rounded-lg text-blue-400"
+                    aria-hidden="true"
+                  >
                     <Eye size={24} />
                   </div>
                   <h3 className="text-2xl font-bold text-white uppercase tracking-wide">
@@ -245,7 +267,10 @@ const About = () => {
             className="lg:col-span-5 will-change-transform h-full"
           >
             <FluidCard className="rounded-[2.5rem] p-10 md:p-12 bg-gradient-to-b from-white/[0.07] to-transparent h-full border-t border-white/20 flex flex-col justify-center">
-              <div className="w-16 h-16 rounded-2xl bg-white text-black flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(255,255,255,0.3)]">
+              <div
+                className="w-16 h-16 rounded-2xl bg-white text-black flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(255,255,255,0.3)]"
+                aria-hidden="true"
+              >
                 <Rocket size={32} />
               </div>
 
@@ -259,7 +284,9 @@ const About = () => {
 
               <button
                 onClick={scrollToWaitlist}
-                className="group relative w-full py-5 bg-white text-black rounded-2xl font-bold text-base hover:scale-[1.02] active:scale-[0.98] transition-all overflow-hidden shadow-xl"
+                // A11y: Ensure focus visibility for keyboard users
+                className="group relative w-full py-5 bg-white text-black rounded-2xl font-bold text-base hover:scale-[1.02] active:scale-[0.98] transition-all overflow-hidden shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-accent-500"
+                aria-label="Scroll to waitlist form"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-white to-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <span className="relative flex items-center justify-center gap-3">
@@ -279,8 +306,11 @@ const About = () => {
         </div>
       </div>
 
-      {/* === BOTTOM EDGE === */}
-      <div className="absolute bottom-0 left-0 w-full h-[2px] z-20 pointer-events-none">
+      {/* === BOTTOM EDGE (Purely Decorative) === */}
+      <div
+        className="absolute bottom-0 left-0 w-full h-[2px] z-20 pointer-events-none"
+        aria-hidden="true"
+      >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent-500 to-transparent opacity-70 blur-[2px]"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50 blur-[4px]"></div>
         <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-blue-900 via-accent-300 to-blue-900"></div>
@@ -292,12 +322,12 @@ const About = () => {
             ease: "easeInOut",
             repeatDelay: 1,
           }}
-          className="absolute bottom-0 left-0 h-[2px] w-[150px] bg-white blur-[3px] shadow-[0_0_20px_rgba(255,255,255,0.8)] will-change-transform"
+          className="absolute bottom-0 left-0 h-[2px] w-[150px] bg-white blur-[3px] shadow-[0_0_20px_rgba(255,255,255,0.8)] will-change-transform translate-z-0"
         />
         <motion.div
           animate={{ x: ["-20vw", "120vw"] }}
           transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-0 left-0 h-[1px] w-[40%] bg-gradient-to-r from-transparent via-accent-400 to-transparent opacity-50 will-change-transform"
+          className="absolute bottom-0 left-0 h-[1px] w-[40%] bg-gradient-to-r from-transparent via-accent-400 to-transparent opacity-50 will-change-transform translate-z-0"
         />
       </div>
     </section>
