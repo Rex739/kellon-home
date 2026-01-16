@@ -149,7 +149,7 @@ const About = () => {
     <section
       ref={containerRef}
       id="about"
-      className="relative bg-primary-900 pt-32 pb-0 overflow-hidden"
+      className="relative bg-primary-900 pt-32 pb-0 overflow-hidden "
     >
       {/* --- BACKGROUND LAYERS --- */}
       <div className="absolute inset-0 z-0 pointer-events-none select-none">
@@ -166,11 +166,11 @@ const About = () => {
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-900/10 rounded-full blur-[120px] will-change-transform" />
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10 px-4">
+      <div className="max-w-7xl  mx-auto relative z-10 px-6">
         {/* --- HEADER --- */}
         <motion.div
           style={{ y: headerY, opacity: headerOpacity }}
-          className="text-center mb-28 will-change-[transform,opacity]"
+          className="text-center  will-change-[transform,opacity]"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8 hover:bg-white/10 transition-colors cursor-default">
             <span className="relative flex h-2 w-2">
