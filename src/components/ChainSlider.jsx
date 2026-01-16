@@ -1,138 +1,100 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from "react"
+import React from "react"
+import { motion } from "framer-motion"
+
+const chains = [
+  {
+    name: "Stellar",
+    logo: "https://cryptologos.cc/logos/stellar-xlm-logo.svg",
+    color: "#7D00FF",
+  },
+  {
+    name: "Base",
+    logo: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png",
+    color: "#0052FF",
+  },
+  {
+    name: "Celo",
+    logo: "https://cryptologos.cc/logos/celo-celo-logo.svg",
+    color: "#FCFF52",
+  },
+  {
+    name: "Polygon",
+    logo: "https://cryptologos.cc/logos/polygon-matic-logo.svg",
+    color: "#8247E5",
+  },
+]
 
 const ChainSlider = () => {
-  const chains = [
-    {
-      name: "Stellar",
-      logo: "https://cryptologos.cc/logos/stellar-xlm-logo.svg",
-      color: "#7D00FF",
-    },
-    {
-      name: "Base",
-      logo: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png",
-      color: "#0052FF",
-    },
-    {
-      name: "Celo",
-      logo: "https://cryptologos.cc/logos/celo-celo-logo.svg",
-      color: "#FCFF52",
-    },
-    {
-      name: "Polygon",
-      logo: "https://cryptologos.cc/logos/polygon-matic-logo.svg",
-      color: "#8247E5",
-    },
-  ]
-
-  const [position, setPosition] = useState(0)
-  const [itemWidth, setItemWidth] = useState(200) // Default fallback
-  const [numSets, setNumSets] = useState(5) // Default
-  const itemRef = useRef(null)
-
-  // Measure actual item width on mount and resize
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (itemRef.current) {
-        // @ts-ignore
-        const width = itemRef.current.offsetWidth
-        setItemWidth(width)
-
-        // Calculate how many sets needed: enough to cover 2x screen + buffer
-        const screenWidth = window.innerWidth
-        const itemsPerSet = chains.length
-        const setWidth = itemsPerSet * width
-        const neededSets = Math.ceil((screenWidth * 2) / setWidth) + 2 // Buffer for seamless
-        setNumSets(neededSets)
-      }
-    }
-
-    updateDimensions()
-    window.addEventListener("resize", updateDimensions)
-    return () => window.removeEventListener("resize", updateDimensions)
-  }, [])
-
-  // Build extended chains based on numSets
-  const extendedChains = Array.from({ length: numSets }, () => chains).flat()
-
-  // Smooth animation loop
-  useEffect(() => {
-    let rafId
-    const speed = 0.5 // Pixels per frame – adjust for speed
-
-    const animate = () => {
-      setPosition((prev) => prev - speed)
-      rafId = requestAnimationFrame(animate)
-    }
-
-    rafId = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(rafId)
-  }, [])
-
-  const totalWidth = chains.length * itemWidth // One set's width
-  // Normalize translateX to be between -totalWidth and 0
-  let translateX = position % totalWidth
-  if (translateX > 0) translateX -= totalWidth // Ensure negative for left scroll
+  // Duplicate the data 4 times to ensure the strip is long enough to fill
+  // wide screens and allow for a seamless loop.
+  const SCROLL_ITEMS = [...chains, ...chains, ...chains, ...chains]
 
   return (
-    <div className="relative w-full overflow-hidden py-4 md:py-6 bg-primary-800">
-      {/* Fades */}
-      <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-primary-800 to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-primary-800 to-transparent z-10 pointer-events-none" />
-
-      {/* Hidden ref item for measurement */}
+    <section
+      className="relative w-full overflow-hidden py-4 md:py-6 bg-transparent"
+      aria-label="Supported Blockchains"
+    >
+      {/* Mask Image: Creates the fade effect on the left and right edges */}
       <div
-        ref={itemRef}
-        className="absolute top-[-9999px] flex items-center gap-3 md:gap-4 lg:gap-5 flex-shrink-0 mx-4 md:mx-6 lg:mx-8"
-        style={{ visibility: "hidden" }}
-      >
-        <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 flex items-center justify-center">
-          <img
-            src={chains[0].logo}
-            alt={chains[0].name}
-            className="w-full h-full object-contain"
-          />
-        </div>
-        <div className="font-bold text-white text-base md:text-lg lg:text-xl">
-          {chains[0].name}
-        </div>
-        <span
-          className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full"
-          style={{ backgroundColor: chains[0].color }}
-        />
-      </div>
-
-      <div
-        className="flex items-center whitespace-nowrap"
+        className="flex w-full select-none"
         style={{
-          transform: `translateX(${translateX}px)`,
-          willChange: "transform",
+          maskImage:
+            "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
         }}
       >
-        {extendedChains.map((chain, index) => (
-          <div
-            key={`${chain.name}-${index}`}
-            className="flex items-center gap-3 md:gap-4 lg:gap-5 flex-shrink-0 mx-4 md:mx-6 lg:mx-8"
-          >
-            <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 flex items-center justify-center">
-              <img
-                src={chain.logo}
-                alt={`${chain.name} logo`}
-                className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 object-contain"
-              />
-            </div>
-            <div className="font-bold text-white text-base md:text-lg lg:text-xl">
-              {chain.name}
-            </div>
-            <span
-              className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full"
-              style={{ backgroundColor: chain.color }}
-            />
-          </div>
-        ))}
+        <motion.ul
+          className="flex min-w-full shrink-0 items-center gap-4 md:gap-8 lg:gap-12 px-4"
+          // ANIMATION: Move from 0% to -50% (halfway).
+          // Because the second half is a clone of the first, it snaps back instantly
+          // to 0% without the user noticing.
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{
+            duration: 20, // Adjust speed (higher = slower)
+            ease: "linear",
+            repeat: Infinity,
+          }}
+        >
+          {SCROLL_ITEMS.map((chain, index) => {
+            // We only want the first set of items to be visible to screen readers.
+            // All duplicates are hidden to prevent repetitive reading.
+            const isDuplicate = index >= chains.length
+
+            return (
+              <li
+                key={`${chain.name}-${index}`}
+                className="flex items-center gap-3 md:gap-4 lg:gap-5 flex-shrink-0"
+                aria-hidden={isDuplicate}
+              >
+                <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 flex items-center justify-center relative">
+                  <img
+                    src={chain.logo}
+                    alt="" // Empty alt because the text name provides context
+                    width={48}
+                    height={48}
+                    className="w-full h-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+
+                <span className="font-bold text-white text-base md:text-lg lg:text-xl">
+                  {chain.name}
+                </span>
+
+                <span
+                  className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ring-2 ring-white/10"
+                  style={{ backgroundColor: chain.color }}
+                  aria-hidden="true" // Decorative dot
+                />
+              </li>
+            )
+          })}
+        </motion.ul>
       </div>
-    </div>
+    </section>
   )
 }
 
