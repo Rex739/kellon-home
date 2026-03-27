@@ -1,365 +1,333 @@
+// @ts-nocheck
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { Menu, X, ChevronRight, Globe, Info, Mail } from "lucide-react"
+import { Menu, X, Globe, Info, Mail, ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
+import { motion, AnimatePresence } from "framer-motion"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  // SEO: Structured Data for Site Navigation
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    name: ["Features", "About", "Contact"],
+    url: ["/#features", "/#about", "/#contact"],
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  // Disable scrolling when mobile menu is open - SIMPLIFIED
+  // --- LOGIC: Scroll Locking ---
   useEffect(() => {
     if (isMenuOpen) {
-      // Just prevent scrolling without saving/restoring position
       document.body.style.overflow = "hidden"
     } else {
-      // Simply re-enable scrolling
       document.body.style.overflow = ""
     }
-
     return () => {
-      // Cleanup
       document.body.style.overflow = ""
     }
   }, [isMenuOpen])
 
+  // --- LOGIC: Accessibility (Close on ESC) ---
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") setIsMenuOpen(false)
+    }
+    window.addEventListener("keydown", handleEsc)
+    return () => window.removeEventListener("keydown", handleEsc)
+  }, [])
+
+  // --- YOUR EXACT LINK LOGIC PRESERVED ---
   const scrollToWaitlist = () => {
     const footer = document.querySelector("footer")
     if (footer) {
       footer.scrollIntoView({ behavior: "smooth" })
       setTimeout(() => {
         const emailInput = footer.querySelector('input[type="email"]')
-        // @ts-ignore
         if (emailInput) emailInput.focus()
       }, 500)
     }
   }
 
-  // Close menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const menu = document.querySelector("[data-menu]")
-      const toggle = document.querySelector("[data-toggle]")
-
-      if (!menu || !toggle) return
-
-      const isMenuClicked = menu.contains(event.target)
-      const isToggleClicked = toggle.contains(event.target)
-
-      // Close menu if clicking outside of both menu and toggle button
-      if (isMenuOpen && !isMenuClicked && !isToggleClicked) {
-        setIsMenuOpen(false)
+  const handleMobileLink = (e, targetId) => {
+    e.preventDefault()
+    setIsMenuOpen(false)
+    // Wait for menu to close before scrolling
+    setTimeout(() => {
+      const element = document.getElementById(targetId)
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" })
       }
-    }
+    }, 50)
+  }
 
-    document.addEventListener("click", handleClickOutside, true)
+  // --- ANIMATION VARIANTS (For Mobile Menu) ---
+  const menuVariants = {
+    closed: {
+      opacity: 0,
+      y: "-100%",
+      transition: { duration: 0.4, ease: [0.33, 1, 0.68, 1] },
+    },
+    open: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, ease: [0.33, 1, 0.68, 1] },
+    },
+  }
 
-    return () => {
-      document.removeEventListener("click", handleClickOutside, true)
-    }
-  }, [isMenuOpen])
+  const containerVariants = {
+    closed: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
+    open: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
+  }
+
+  const itemVariants = {
+    closed: { opacity: 0, y: 20 },
+    open: { opacity: 1, y: 0 },
+  }
 
   return (
-    <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
-      <div
-        className="
-          w-full max-w-7xl 
-          bg-primary-1000/50 backdrop-blur-xl 
-          border border-accent-500/20
-          rounded-2xl shadow-lg
-          px-6 py-3
-          flex items-center justify-between
-        "
-      >
-        {/* Logo */}
-        <div>
-          <Link
-            to="/"
-            onClick={(e) => {
-              e.preventDefault()
-              window.scrollTo({ top: 0, behavior: "smooth" })
-            }}
-            className="flex items-center space-x-3 cursor-pointer group"
-          >
-            <img
-              src="/logo.png?v=20251108"
-              alt="Kellon Logo"
-              className="w-10 h-10 object-contain group-hover:scale-110 transition-transform duration-300"
-            />
-            <span className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors duration-300">
-              Kellon
-            </span>
-          </Link>
-        </div>
+    <>
+      {/* SEO Script */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-10">
-          <Link
-            to="/"
-            state={{ scrollTo: "features" }}
-            className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center"
-          >
-            <span>Features</span>
-          </Link>
-          <Link
-            to="/"
-            state={{ scrollTo: "about" }}
-            className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center"
-          >
-            <span>About</span>
-          </Link>
-          <Link
-            to="/"
-            state={{ scrollTo: "contact" }}
-            className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center"
-          >
-            <span>Contact</span>
-          </Link>
-        </nav>
-
-        {/* Desktop CTA */}
-        <button
-          onClick={scrollToWaitlist}
+      <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
+        <div
           className="
-            hidden md:flex
-            px-5 py-2 
-            bg-white text-primary-900 font-semibold
-            rounded-lg shadow
-            hover:bg-gray-200 transition
+            w-full max-w-7xl 
+            bg-primary-1000/50 backdrop-blur-xl 
+            border border-accent-500/20
+            rounded-2xl shadow-lg
+            px-6 py-3
+            flex items-center justify-between
+            relative z-50
           "
         >
-          Join Waitlist
-        </button>
+          {/* Logo */}
+          <div>
+            <Link
+              to="/"
+              onClick={(e) => {
+                e.preventDefault()
+                window.scrollTo({ top: 0, behavior: "smooth" })
+                setIsMenuOpen(false)
+              }}
+              className="flex items-center space-x-3 cursor-pointer group"
+              aria-label="Kellon Home"
+            >
+              <img
+                src="/logo.png?v=20251108"
+                alt="" // Decorative image, text is adjacent
+                className="w-10 h-10 object-contain group-hover:scale-110 transition-transform duration-300"
+              />
+              <span className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors duration-300">
+                Kellon
+              </span>
+            </Link>
+          </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-all duration-300"
-          onClick={toggleMenu}
-          data-toggle="true"
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isMenuOpen}
-        >
-          {isMenuOpen ? (
-            <X className="w-6 h-6" />
-          ) : (
-            <Menu className="w-6 h-6" />
-          )}
-        </button>
-      </div>
+          {/* Desktop Navigation */}
+          <nav
+            className="hidden md:flex items-center space-x-10"
+            aria-label="Desktop Navigation"
+          >
+            <Link
+              to="/"
+              state={{ scrollTo: "features" }}
+              className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center"
+            >
+              <span>Features</span>
+            </Link>
+            <Link
+              to="/"
+              state={{ scrollTo: "about" }}
+              className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center"
+            >
+              <span>About</span>
+            </Link>
+            <Link
+              to="/"
+              state={{ scrollTo: "contact" }}
+              className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center"
+            >
+              <span>Contact</span>
+            </Link>
+          </nav>
 
-      {/* Mobile Menu - Dropdown style */}
-      {isMenuOpen && (
-        <>
-          {/* Backdrop overlay */}
-          <div
-            className="fixed inset-0 bg-black/20 z-40"
-            onClick={toggleMenu}
-          />
-
-          {/* Menu dropdown - ANIMATED TO SLIDE UP FROM BOTTOM */}
-          <div
-            data-menu="true"
+          {/* Desktop CTA */}
+          <button
+            onClick={scrollToWaitlist}
             className="
-              fixed top-20 left-4 right-4 z-50
-              bg-gradient-to-b from-primary-900/95 to-primary-950/95 backdrop-blur-xl 
-              border border-accent-500/20 rounded-xl shadow-2xl shadow-purple-900/30
-              px-6 py-6 md:hidden
-              animate-slideUp mt-2
+              hidden md:flex
+              px-5 py-2 
+              bg-white text-primary-900 font-semibold
+              rounded-lg shadow
+              hover:bg-gray-200 transition
             "
           >
-            {/* Menu Items - ALL WITH SLIDE UP ANIMATIONS */}
-            <nav className="flex flex-col space-y-3">
-              <div
-                className="animate-slideUpItem"
-                style={{ animationDelay: "0.1s" }}
-              >
-                <Link
-                  to="/"
-                  state={{ scrollTo: "features" }}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    setIsMenuOpen(false)
-                    // Wait for menu to close before scrolling
-                    setTimeout(() => {
-                      const element = document.getElementById("features")
-                      if (element) {
-                        element.scrollIntoView({ behavior: "smooth" })
-                      }
-                    }, 50)
-                  }}
-                  className="
-                    flex items-center justify-between
-                    p-4 rounded-xl
-                    bg-white/5 hover:bg-white/10
-                    border border-white/10
-                    group transition-all duration-300
-                  "
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Globe className="w-5 h-5 text-purple-400" />
-                    </div>
-                    <div>
-                      <div className="text-white font-semibold text-lg">
-                        Features
-                      </div>
-                      <div className="text-gray-400 text-sm">
-                        Explore capabilities
-                      </div>
-                    </div>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
-                </Link>
-              </div>
+            Join Waitlist
+          </button>
 
-              <div
-                className="animate-slideUpItem"
-                style={{ animationDelay: "0.2s" }}
-              >
-                <Link
-                  to="/"
-                  state={{ scrollTo: "about" }}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    setIsMenuOpen(false)
-                    setTimeout(() => {
-                      const element = document.getElementById("about")
-                      if (element) {
-                        element.scrollIntoView({ behavior: "smooth" })
-                      }
-                    }, 50)
-                  }}
-                  className="
-                    flex items-center justify-between
-                    p-4 rounded-xl
-                    bg-white/5 hover:bg-white/10
-                    border border-white/10
-                    group transition-all duration-300
-                  "
+          {/* Mobile Menu Toggle */}
+          <button
+            className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500"
+            onClick={toggleMenu}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          >
+            <AnimatePresence mode="wait">
+              {isMenuOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Info className="w-5 h-5 text-blue-400" />
-                    </div>
-                    <div>
-                      <div className="text-white font-semibold text-lg">
-                        About
-                      </div>
-                      <div className="text-gray-400 text-sm">
-                        Our story & mission
-                      </div>
-                    </div>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
-                </Link>
-              </div>
-
-              <div
-                className="animate-slideUpItem"
-                style={{ animationDelay: "0.3s" }}
-              >
-                <Link
-                  to="/"
-                  state={{ scrollTo: "contact" }}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    setIsMenuOpen(false)
-                    setTimeout(() => {
-                      const element = document.getElementById("contact")
-                      if (element) {
-                        element.scrollIntoView({ behavior: "smooth" })
-                      }
-                    }, 50)
-                  }}
-                  className="
-                    flex items-center justify-between
-                    p-4 rounded-xl
-                    bg-white/5 hover:bg-white/10
-                    border border-white/10
-                    group transition-all duration-300
-                  "
+                  <X className="w-6 h-6" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Mail className="w-5 h-5 text-green-400" />
-                    </div>
-                    <div>
-                      <div className="text-white font-semibold text-lg">
-                        Contact
-                      </div>
-                      <div className="text-gray-400 text-sm">Get in touch</div>
-                    </div>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
-                </Link>
-              </div>
-            </nav>
+                  <Menu className="w-6 h-6" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </button>
+        </div>
+      </header>
 
-            {/* Mobile CTA - also slides up */}
+      {/* --- REDESIGNED MOBILE MENU (Full Screen Overlay) --- */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile Navigation"
+            // @ts-ignore
+            variants={menuVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
+            className="fixed inset-0 z-40 bg-primary-950/95 backdrop-blur-3xl flex flex-col pt-32 px-6 md:hidden"
+          >
+            {/* Background Decor */}
             <div
-              className="animate-slideUpItem"
-              style={{ animationDelay: "0.4s" }}
+              className="absolute inset-0 pointer-events-none opacity-20"
+              aria-hidden="true"
             >
-              <button
-                onClick={() => {
-                  setIsMenuOpen(false)
-                  setTimeout(() => {
-                    scrollToWaitlist()
-                  }, 50)
-                }}
-                className="
-                  w-full mt-4 px-4 py-3 
-                  bg-white text-primary-900 font-semibold rounded-lg
-                  hover:bg-gray-200 transition
-                "
-              >
-                Join Waitlist
-              </button>
+              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent-600/20 rounded-full blur-[120px]" />
+              <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px]" />
             </div>
+
+            <motion.div
+              className="flex flex-col h-full relative z-10"
+              variants={containerVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+            >
+              <nav className="flex flex-col gap-4">
+                <MobileMenuItem
+                  to="/"
+                  targetId="features"
+                  icon={Globe}
+                  label="Features"
+                  desc="Explore capabilities"
+                  state={{ scrollTo: "features" }}
+                  onClick={handleMobileLink}
+                  variants={itemVariants}
+                />
+                <MobileMenuItem
+                  to="/"
+                  targetId="about"
+                  icon={Info}
+                  label="About Us"
+                  desc="Our story & mission"
+                  state={{ scrollTo: "about" }}
+                  onClick={handleMobileLink}
+                  variants={itemVariants}
+                />
+                <MobileMenuItem
+                  to="/"
+                  targetId="contact"
+                  icon={Mail}
+                  label="Contact"
+                  desc="Get in touch"
+                  state={{ scrollTo: "contact" }}
+                  onClick={handleMobileLink}
+                  variants={itemVariants}
+                />
+              </nav>
+
+              <motion.div className="mt-auto mb-12" variants={itemVariants}>
+                <div className="h-px w-full bg-white/10 mb-8" />
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false)
+                    setTimeout(() => scrollToWaitlist(), 50)
+                  }}
+                  className="group w-full py-4 bg-white text-primary-900 rounded-xl font-bold text-lg shadow-xl hover:bg-gray-100 active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+                >
+                  Join Waitlist
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <p className="text-center text-white/30 text-xs mt-6">
+                  © 2026 Kellon Inc. All rights reserved.
+                </p>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  )
+}
+
+// Sub-component for Mobile Items (Preserves your Link logic + New Styling)
+function MobileMenuItem({
+  to,
+  state,
+  targetId,
+  icon: Icon,
+  label,
+  desc,
+  onClick,
+  variants,
+}) {
+  return (
+    <motion.div variants={variants} className="w-full">
+      <Link
+        to={to}
+        state={state}
+        onClick={(e) => onClick(e, targetId)}
+        className="group flex items-center gap-5 p-4 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.08] active:bg-white/[0.12] transition-colors text-left w-full"
+      >
+        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-accent-500 group-hover:text-white text-gray-400 transition-all duration-300">
+          <Icon className="w-6 h-6" />
+        </div>
+        <div className="flex-1">
+          <div className="text-2xl font-bold text-white mb-1 group-hover:text-accent-300 transition-colors">
+            {label}
           </div>
-        </>
-      )}
-
-      {/* Add animation styles for SLIDE UP */}
-      <style 
-// @ts-ignore
-      jsx>{`
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes slideUpItem {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-slideUp {
-          animation: slideUp 0.3s ease-out forwards;
-        }
-
-        .animate-slideUpItem {
-          animation: slideUpItem 0.5s ease-out forwards;
-          opacity: 0;
-          animation-fill-mode: forwards;
-        }
-      `}</style>
-    </header>
+          <div className="text-sm text-gray-400 group-hover:text-gray-200 transition-colors">
+            {desc}
+          </div>
+        </div>
+        <ArrowRight className="w-5 h-5 text-gray-500 group-hover:text-white group-hover:translate-x-1 transition-all" />
+      </Link>
+    </motion.div>
   )
 }
