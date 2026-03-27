@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 const chains = [
   {
     name: "Stellar",
-    logo: "https://cryptologos.cc/logos/stellar-xlm-logo.svg",
+    logo: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/stellar/info/logo.png",
     color: "#7D00FF",
   },
   {
@@ -16,12 +16,12 @@ const chains = [
   },
   {
     name: "Celo",
-    logo: "https://cryptologos.cc/logos/celo-celo-logo.svg",
+    logo: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/celo/info/logo.png",
     color: "#FCFF52",
   },
   {
     name: "Polygon",
-    logo: "https://cryptologos.cc/logos/polygon-matic-logo.svg",
+    logo: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png",
     color: "#8247E5",
   },
 ]
