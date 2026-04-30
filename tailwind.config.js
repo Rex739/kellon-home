@@ -55,7 +55,7 @@ export default {
       screens: {
         xs: "375px",
       },
-      
+
       keyframes: {
         float: {
           "0%, 100%": { transform: "translateY(0px)" },

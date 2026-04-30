@@ -41,7 +41,7 @@ export default function Hero() {
       const sectionHeight = rect.height / images.length
       const index = Math.min(
         Math.max(0, Math.floor(scrollTop / sectionHeight)),
-        images.length - 1
+        images.length - 1,
       )
       setCurrentImage(index)
     }
