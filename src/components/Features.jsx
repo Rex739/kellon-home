@@ -92,7 +92,7 @@ export default function SimpleFeatures() {
   return (
     <section
       ref={containerRef}
-      id="features-showcase"
+      id="features"
       aria-label="Key Features of Kellon Protocol"
       className="relative bg-primary-900"
       style={{ height: `${features.length * 80}vh` }}
