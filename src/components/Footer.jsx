@@ -44,8 +44,12 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: XIcon, href: "https://x.com/Kellonapp", label: "X" },
-    { icon: Github, href: "#", label: "GitHub" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
+    { icon: Github, href: "https://github.com/KELLON-RWA", label: "GitHub" },
+    {
+      icon: Linkedin,
+      href: "https://www.linkedin.com/company/kellon/",
+      label: "LinkedIn",
+    },
   ]
 
   const DTPLinks = [
@@ -92,9 +96,8 @@ const Footer = () => {
               Ready to go <span className="text-accent-500">borderless?</span>
             </h3>
             <p className="text-xl text-gray-400 mb-10 leading-relaxed">
-              Join the early adopters shaping the future of global
-              finance. Get early access, exclusive updates, and priority
-              onboarding.
+              Join the early adopters shaping the future of global finance. Get
+              early access, exclusive updates, and priority onboarding.
             </p>
 
             {/* Input Field */}
@@ -146,8 +149,8 @@ const Footer = () => {
                   alt="Kellon Logo"
                 />
               </div>
-              <span className="text-2xl font-bold text-white font-bungee tracking-wider">
-                KELLON
+              <span className="text-2xl font-bold text-white">
+                Kellon
               </span>
             </div>
             <p className="text-gray-400 leading-relaxed max-w-sm">
@@ -185,7 +188,7 @@ const Footer = () => {
                   <Link
                     to="/"
                     state={{ scrollTo: sectionId }}
-                    className="text-gray-400 hover:text-accent-400 transition-colors cursor-pointer text-sm font-medium block hover:translate-x-1 duration-300"
+                    className="text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer text-sm font-medium block"
                   >
                     {label}
                   </Link>
@@ -204,7 +207,7 @@ const Footer = () => {
                 <li key={i}>
                   <Link
                     to={href}
-                    className="text-gray-400 hover:text-accent-400 transition-colors cursor-pointer text-sm font-medium block hover:translate-x-1 duration-300"
+                    className="text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer text-sm font-medium block"
                   >
                     {label}
                   </Link>
@@ -221,15 +224,15 @@ const Footer = () => {
             <div className="flex flex-col gap-4">
               <a
                 href="mailto:contact@kellon.xyz"
-                className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors group p-4 bg-white/5 border border-white/5 rounded-xl hover:border-white/10"
+                className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors duration-300 group"
               >
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white group-hover:bg-accent-500 group-hover:text-black transition-colors">
+                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white group-hover:bg-accent-500 group-hover:text-black transition-colors duration-300">
                   <Mail className="w-4 h-4" />
                 </div>
                 <span className="font-medium">contact@kellon.xyz</span>
               </a>
 
-              <div className="flex items-start gap-3 text-gray-400 p-4 bg-white/5 border border-white/5 rounded-xl">
+              <div className="flex items-start gap-3 text-gray-400">
                 <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white shrink-0 mt-1">
                   <MapPin className="w-4 h-4" />
                 </div>
@@ -245,11 +248,7 @@ const Footer = () => {
 
         {/* --- 3. BOTTOM BAR --- */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500 font-medium tracking-wide">
-          <span>&copy; 2025 Kellon Inc. All rights reserved.</span>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span>All Systems Operational</span>
-          </div>
+          <span>&copy; 2026 Kellon. All rights reserved.</span>
         </div>
       </div>
 

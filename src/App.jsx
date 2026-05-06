@@ -13,10 +13,10 @@ import TermsOfUse from "./components/TermsOfUse"
 import Disclaimer from "./components/Disclaimer"
 import HowItWorks from "./components/HowItWorks"
 import FAQ from "./components/FAQ"
-import RegulatoryNote from "./components/Regulatory"
-import TokenizedRWA from "./components/TokenizedRWA"
-import ParallaxSection from "./components/ParralaxSection"
+
 import MarketOpportunity from "./components/market/MarketOpportunity"
+import ParallaxSection from "./components/ParralaxSection"
+
 
 // Home page component
 const HomePage = () => {
@@ -64,7 +64,6 @@ const HomePage = () => {
       <Header />
       <main>
         <Hero />
-        {/* <Partners /> */}
         <Features />
         <HowItWorks />
         <MarketOpportunity />
