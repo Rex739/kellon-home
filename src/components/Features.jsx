@@ -165,13 +165,13 @@ export default function SimpleFeatures() {
 
         {/* COUNTRY VISUALS */}
         <div
-          className="absolute inset-0 lg:static lg:w-1/2 h-full z-10 lg:z-auto overflow-hidden"
+          className="absolute inset-0 h-full z-10 overflow-hidden"
           aria-hidden="true"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-900 via-primary-900/90 to-primary-900/40 lg:via-transparent lg:to-transparent z-10" />
-          <div className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-b from-primary-900 via-transparent to-primary-900 lg:from-primary-900 lg:via-transparent lg:to-primary-900 h-full" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary-900 via-primary-900/90 to-primary-900/45 z-10" />
+          <div className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-b from-primary-900 via-transparent to-primary-900 h-full" />
 
-          <div className="flex justify-end gap-6 h-full opacity-40 lg:opacity-100 pr-4 lg:pr-20 rotate-[-5deg] scale-110 origin-center">
+          <div className="flex justify-end gap-6 h-full opacity-35 pr-4 lg:pr-20 rotate-[-5deg] scale-110 origin-center">
             <InfiniteColumn speed={30} direction={-1}>
               {countries.map((c, i) => (
                 <CountryCard key={i} country={c} activeFeature={current} />
@@ -179,7 +179,7 @@ export default function SimpleFeatures() {
             </InfiniteColumn>
 
             <InfiniteColumn speed={40} direction={1}>
-              {countries.reverse().map((c, i) => (
+              {countries.slice().reverse().map((c, i) => (
                 <CountryCard key={i} country={c} activeFeature={current} />
               ))}
             </InfiniteColumn>
