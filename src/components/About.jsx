@@ -151,7 +151,7 @@ const About = () => {
     <section
       ref={containerRef}
       id="about"
-      className="relative bg-primary-900 pt-32 pb-0 overflow-hidden"
+      className="relative bg-primary-900 pt-20 sm:pt-32 pb-0 overflow-hidden"
       aria-label="About Our Mission"
       // SEO: Mark this as an Organization description
       itemScope
@@ -179,7 +179,7 @@ const About = () => {
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-900/10 rounded-full blur-[120px] will-change-transform transform-gpu translate-z-0" />
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10 px-6">
+      <div className="max-w-7xl mx-auto relative z-10 px-4 sm:px-6">
         {/* --- HEADER --- */}
         <motion.div
           style={{ y: headerY, opacity: headerOpacity }}
@@ -195,7 +195,7 @@ const About = () => {
             </span>
           </div>
 
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-[0.9]">
+          <h2 className="text-[clamp(2.75rem,12vw,5rem)] md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-[0.95]">
             The Future of <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-400 to-gray-600">
               Borderless Finance
@@ -204,13 +204,13 @@ const About = () => {
         </motion.div>
 
         {/* --- FLUID GRID LAYOUT --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-32 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-20 sm:mb-32 items-stretch">
           {/* LEFT COL: MISSION & VISION */}
           <motion.div
             style={{ y: leftColY }}
             className="lg:col-span-7 flex flex-col gap-8 will-change-transform h-full"
           >
-            <FluidCard className="rounded-[2.5rem] p-10 md:p-14 h-full flex flex-col justify-center">
+            <FluidCard className="rounded-[1.75rem] sm:rounded-[2.5rem] p-6 sm:p-10 md:p-14 h-full flex flex-col justify-center">
               {/* Mission Block */}
               <div className="mb-10">
                 <div className="flex items-center gap-3 mb-4">
@@ -220,12 +220,12 @@ const About = () => {
                   >
                     <Target size={24} />
                   </div>
-                  <h3 className="text-2xl font-bold text-white uppercase tracking-wide">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white uppercase tracking-wide">
                     Our Mission
                   </h3>
                 </div>
                 <p
-                  className="text-xl text-gray-300 leading-relaxed font-light"
+                  className="text-base sm:text-xl text-gray-300 leading-relaxed font-light"
                   itemProp="description" // SEO: Description of the Org
                 >
                   To make global financial tools accessible to anyone, anywhere,{" "}
@@ -248,11 +248,11 @@ const About = () => {
                   >
                     <Eye size={24} />
                   </div>
-                  <h3 className="text-2xl font-bold text-white uppercase tracking-wide">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white uppercase tracking-wide">
                     Our Vision
                   </h3>
                 </div>
-                <p className="text-xl text-gray-300 leading-relaxed font-light">
+                <p className="text-base sm:text-xl text-gray-300 leading-relaxed font-light">
                   A single{" "}
                   <span className="text-white font-medium">super-app</span> for
                   payments, investing, and wealth — all borderless and instant.
@@ -266,7 +266,7 @@ const About = () => {
             style={{ y: rightColY }}
             className="lg:col-span-5 will-change-transform h-full"
           >
-            <FluidCard className="rounded-[2.5rem] p-10 md:p-12 bg-gradient-to-b from-white/[0.07] to-transparent h-full border-t border-white/20 flex flex-col justify-center">
+            <FluidCard className="rounded-[1.75rem] sm:rounded-[2.5rem] p-6 sm:p-10 md:p-12 bg-gradient-to-b from-white/[0.07] to-transparent h-full border-t border-white/20 flex flex-col justify-center">
               <div
                 className="w-16 h-16 rounded-2xl bg-white text-black flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(255,255,255,0.3)]"
                 aria-hidden="true"
@@ -299,7 +299,7 @@ const About = () => {
         </div>
 
         {/* --- VALUES ROW --- */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20 sm:mb-32">
           {VALUES.map((v, i) => (
             <ValueCard key={i} data={v} index={i} />
           ))}
