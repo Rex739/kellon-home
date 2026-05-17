@@ -46,7 +46,7 @@ export default function WhyChooseUsGrid() {
 
   return (
     <section
-      className="relative w-full py-32 border-t border-white/5"
+      className="relative w-full py-20 sm:py-32 border-t border-white/5"
       aria-labelledby="why-choose-heading"
     >
       {/* SEO: Inject Structured Data */}
@@ -55,7 +55,7 @@ export default function WhyChooseUsGrid() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-16 items-start">
           {/* Header Section */}
           <div className="lg:sticky lg:top-32 flex flex-col items-start gap-8">
@@ -73,7 +73,7 @@ export default function WhyChooseUsGrid() {
             </div>
             <h2
               id="why-choose-heading"
-              className="text-5xl md:text-6xl font-bold font-bungee text-white leading-tight"
+              className="text-[clamp(2.5rem,11vw,3.75rem)] md:text-6xl font-bold font-bungee text-white leading-tight"
             >
               Built For <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-accent-600">
@@ -83,7 +83,7 @@ export default function WhyChooseUsGrid() {
           </div>
 
           {/* Advantages Grid */}
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-[1px] bg-white/10 border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl relative z-10">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-[1px] bg-white/10 border border-white/10 rounded-[1.75rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl relative z-10">
             {ADVANTAGES.map((adv, i) => (
               <motion.li
                 key={i}
@@ -91,7 +91,7 @@ export default function WhyChooseUsGrid() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="group relative bg-[#0a0a0a]/80 hover:bg-accent-500 p-10 transition-colors duration-500 min-h-[320px] flex flex-col justify-between overflow-hidden"
+                className="group relative bg-[#0a0a0a]/80 hover:bg-accent-500 p-6 sm:p-10 transition-colors duration-500 min-h-[260px] sm:min-h-[320px] flex flex-col justify-between overflow-hidden"
               >
                 {/* Decorative Background Circle - Hidden from Screen Readers */}
                 <div
