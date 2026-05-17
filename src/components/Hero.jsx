@@ -14,12 +14,19 @@ const images = [
   "https://res.cloudinary.com/dcxghlgre/image/upload/v1767971954/kellon/Mockuuups_Free_Google_Pixel_10_Pro_Mockup_uwpoux.png",
   "https://res.cloudinary.com/dcxghlgre/image/upload/v1767971954/kellon/Mockuuups_Free_Google_Pixel_10_Pro_Mockup_anpi27.png",
   "https://res.cloudinary.com/dcxghlgre/image/upload/v1767971955/kellon/Mockuuups_Free_Google_Pixel_10_Pro_Mockup_mwypva.png",
-]
+].map((url) =>
+  url.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_720/")
+)
 
 export default function Hero() {
   const containerRef = useRef(null)
+  const currentImageRef = useRef(0)
+  const frameRef = useRef(null)
   const [currentImage, setCurrentImage] = useState(0)
   const [currentHeadline, setCurrentHeadline] = useState(0)
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window === "undefined" ? false : window.innerWidth >= 1024
+  )
 
   // 1. Headline Loop
   useEffect(() => {
@@ -31,23 +38,51 @@ export default function Hero() {
 
   // 2. Scroll-driven Image Switch
   useEffect(() => {
+    const onResize = () => setIsDesktop(window.innerWidth >= 1024)
+    window.addEventListener("resize", onResize, { passive: true })
+    return () => window.removeEventListener("resize", onResize)
+  }, [])
+
+  // 2. Scroll-driven Image Switch
+  useEffect(() => {
+    if (!isDesktop) return undefined
+
     const onScroll = () => {
+      if (frameRef.current) return
+
+      frameRef.current = window.requestAnimationFrame(() => {
+        frameRef.current = null
+
       if (!containerRef.current) return
-      if (window.innerWidth < 1024) return
 
       // @ts-ignore
       const rect = containerRef.current.getBoundingClientRect()
-      const scrollTop = -rect.top
-      const sectionHeight = rect.height / images.length
+      const scrollTop = Math.min(
+        Math.max(0, -rect.top),
+        rect.height - window.innerHeight
+      )
+      const scrollableDistance = Math.max(1, rect.height - window.innerHeight)
+      const sectionHeight = scrollableDistance / (images.length - 1)
       const index = Math.min(
-        Math.max(0, Math.floor(scrollTop / sectionHeight)),
+        Math.max(0, Math.round(scrollTop / sectionHeight)),
         images.length - 1,
       )
-      setCurrentImage(index)
+
+        if (index !== currentImageRef.current) {
+          currentImageRef.current = index
+          setCurrentImage(index)
+        }
+      })
     }
-    window.addEventListener("scroll", onScroll)
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      if (frameRef.current) {
+        window.cancelAnimationFrame(frameRef.current)
+      }
+    }
+  }, [isDesktop])
 
   const scrollToWaitlist = () => {
     const footer = document.querySelector("footer")
@@ -64,9 +99,9 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen lg:h-[400vh] bg-primary-900"
+      className="relative min-h-[100svh] lg:h-[400vh] bg-primary-900"
     >
-      <div className="relative lg:sticky lg:top-0 w-full min-h-screen lg:h-screen overflow-hidden flex items-center justify-center py-20 lg:py-0">
+      <div className="relative lg:sticky lg:top-0 w-full min-h-[100svh] lg:h-screen overflow-hidden flex items-center justify-center py-28 sm:py-24 lg:py-0">
         {/* --- BACKGROUND --- */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-accent-500/10 rounded-full blur-[120px]" />
@@ -77,7 +112,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full z-10">
+        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full z-10">
           {/* --- LEFT: TEXT --- */}
           <div className="flex flex-col justify-center h-full pt-10 lg:pt-0">
             <div className="mb-8">
@@ -98,14 +133,14 @@ export default function Hero() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="text-5xl md:text-7xl font-extrabold font-bungee leading-[1.05] tracking-tight text-white"
+                  className="text-4xl xs:text-5xl md:text-7xl font-extrabold font-bungee leading-[1.05] tracking-tight text-white"
                 >
                   {headlines[currentHeadline]}
                 </motion.h1>
               </AnimatePresence>
             </div>
 
-            <p className="text-xl text-gray-300 leading-relaxed mb-10 max-w-lg">
+            <p className="text-base xs:text-xl  text-gray-300 leading-relaxed mb-10 max-w-lg">
               Kellon Mobile empowers you with a non-custodial wallet for
               borderless payments, tokenized asset management, and global
               investments - all in one secure, intuitive app.
@@ -124,7 +159,7 @@ export default function Hero() {
                 <p className="text-sm font-semibold text-gray-400 mb-4 uppercase tracking-wider">
                   Trusted Infrastructure
                 </p>
-                <div className="flex gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                <div className="flex flex-wrap gap-4 lg:gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
                   <div className="flex items-center gap-2 text-white font-bold">
                     <Globe size={24} /> GlobalNet
                   </div>
@@ -140,6 +175,7 @@ export default function Hero() {
           </div>
 
           {/* --- RIGHT: MOCKUP --- */}
+          {isDesktop && (
           <div className="hidden lg:flex items-center justify-center relative h-full">
             <div className="absolute w-[80%] h-[60%] bg-gradient-to-tr from-accent-500/20 to-primary-500/20 rounded-full blur-[70px] animate-pulse" />
 
@@ -149,6 +185,11 @@ export default function Hero() {
                   key={i}
                   src={img}
                   alt={`App Screenshot ${i}`}
+                  width="720"
+                  height="1440"
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority={i === 0 ? "high" : "auto"}
                   initial={false}
                   animate={{
                     opacity: i === currentImage ? 1 : 0,
@@ -213,6 +254,7 @@ export default function Hero() {
               </div>
             </motion.div>
           </div>
+          )}
         </div>
       </div>
     </section>
