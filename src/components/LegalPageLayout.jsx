@@ -1,7 +1,6 @@
 import React from "react"
 import { ArrowDown, ArrowLeft, FileText } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-import Header from "./Header"
 import Footer from "./Footer"
 
 export default function LegalPageLayout({
@@ -28,18 +27,32 @@ export default function LegalPageLayout({
         <div className="absolute inset-x-0 top-0 h-80 bg-gradient-to-b from-primary-950/80 to-transparent" />
       </div>
 
-      <Header />
-
-      <main className="relative z-10 px-4 pb-20 pt-28 sm:px-6 sm:pt-32 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+      <div className="relative z-20 px-4 pt-4 sm:px-6 sm:pt-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-2xl border border-accent-500/20 bg-primary-1000/50 px-4 py-3 shadow-2xl backdrop-blur-md sm:px-6">
           <button
             onClick={() => navigate("/")}
-            className="group mb-12 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-bold text-gray-300 backdrop-blur-md transition hover:border-accent-500/40 hover:text-white"
+            className="flex items-center gap-2"
+            aria-label="Go to Kellon home"
           >
-            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Back to Home
+            <img src="/logo.png" alt="" className="h-8 w-8" />
+            <span className="text-xl font-bold tracking-tight text-white">
+              Kellon
+            </span>
           </button>
 
+          <button
+            onClick={() => navigate("/")}
+            className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-bold text-gray-300 transition hover:border-accent-500/40 hover:text-white"
+          >
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            <span className="hidden sm:inline">Back to Home</span>
+            <span className="sm:hidden">Back</span>
+          </button>
+        </div>
+      </div>
+
+      <main className="relative z-10 px-4 pb-20 pt-16 sm:px-6 sm:pt-20 lg:px-8">
+        <div className="mx-auto max-w-7xl">
           <section className="grid gap-10 border-b border-white/10 pb-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-end lg:pb-16">
             <div>
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-accent-500/30 bg-accent-500/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-accent-300">
