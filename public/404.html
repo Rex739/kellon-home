@@ -2,52 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    
-    <!-- Basic Favicons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2025" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2025" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2025" />
-    <link rel="shortcut icon" href="/favicon.ico?v=2025" />
-    
-    <!-- Apple Touch Icons (iOS) -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/57.png?v=2025" />
-    <link rel="apple-touch-icon" sizes="60x60" href="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/60.png?v=2025" />
-    <link rel="apple-touch-icon" sizes="72x72" href="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/72.png?v=2025" />
-    <link rel="apple-touch-icon" sizes="76x76" href="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/76.png?v=2025" />
-    <link rel="apple-touch-icon" sizes="114x114" href="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/114.png?v=2025" />
-    <link rel="apple-touch-icon" sizes="120x120" href="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/120.png?v=2025" />
-    <link rel="apple-touch-icon" sizes="144x144" href="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/144.png?v=2025" />
-    <link rel="apple-touch-icon" sizes="152x152" href="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/152.png?v=2025" />
-    <link rel="apple-touch-icon" sizes="167x167" href="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/167.png?v=2025" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/180.png?v=2025" />
-    
-    <!-- Android Chrome Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/196.png?v=2025" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/512.png?v=2025" />
-    
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="/manifest.json" />
-    
-    <!-- Theme and App Configuration -->
-    <meta name="theme-color" content="#d946ef" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Kellon" />
-    <meta name="application-name" content="Kellon" />
-    <meta name="msapplication-TileColor" content="#d946ef" />
-    <meta name="msapplication-TileImage" content="/AppIcons/Assets.xcassets/AppIcon.appiconset/_/144.png" />
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kellon Mobile - Borderless Payments. Global Investments. One Wallet</title>
-    <meta name="description" content="Kellon Mobile enables borderless payments and global investments through one powerful financial platform. Break financial barriers with seamless cross-border transactions." />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="/assets/index-ea063dc6.js"></script>
-    <link rel="stylesheet" href="/assets/index-7ed0aa61.css">
+    <title>Kellon</title>
+    <script>
+      sessionStorage.setItem(
+        "kellon:redirect",
+        window.location.pathname + window.location.search + window.location.hash
+      )
+      window.location.replace("/")
+    </script>
   </head>
-  <body>
-    <div id="root"></div>
-    
-  </body>
+  <body></body>
 </html>

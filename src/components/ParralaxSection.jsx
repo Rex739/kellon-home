@@ -47,13 +47,13 @@ export default function ParallaxSection() {
   })
 
   // Desktop Parallax Transforms
-  const layer1Opacity = useTransform(smoothProgress, [0, 0.4, 0.5], [1, 1, 0])
-  const layer1Scale = useTransform(smoothProgress, [0, 0.45], [1, 0.9])
-  const layer1Y = useTransform(smoothProgress, [0, 0.45], [0, -50])
+  const layer1Opacity = useTransform(smoothProgress, [0, 0.42, 0.58], [1, 1, 0])
+  const layer1Scale = useTransform(smoothProgress, [0, 0.58], [1, 0.9])
+  const layer1Y = useTransform(smoothProgress, [0, 0.58], [0, -50])
 
-  const layer2Opacity = useTransform(smoothProgress, [0.45, 0.55, 1], [0, 1, 1])
-  const layer2Scale = useTransform(smoothProgress, [0.55, 1], [0.9, 1])
-  const layer2Y = useTransform(smoothProgress, [0.45, 1], [50, 0])
+  const layer2Opacity = useTransform(smoothProgress, [0.42, 0.58, 1], [0, 1, 1])
+  const layer2Scale = useTransform(smoothProgress, [0.42, 1], [0.9, 1])
+  const layer2Y = useTransform(smoothProgress, [0.42, 1], [50, 0])
 
   // Mouse Spotlight
   const mouseX = useMotionValue(0)

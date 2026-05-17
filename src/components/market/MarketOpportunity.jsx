@@ -53,7 +53,7 @@ export default function MarketOpportunity() {
   return (
     <section
       ref={containerRef}
-      className="relative bg-primary-900 text-white overflow-hidden pt-32 pb-0"
+      className="relative bg-primary-900 text-white overflow-hidden pt-20 sm:pt-32 pb-0"
       aria-label="Market Opportunity"
     >
       {/* BACKGROUND LAYERS */}
@@ -91,10 +91,10 @@ export default function MarketOpportunity() {
 
       {/* CONTENT */}
       <div className="relative z-10 w-full">
-        <div className="max-w-7xl mx-auto px-6 mb-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-20 sm:mb-32">
           <motion.div
             style={{ y, opacity }}
-            className="text-center max-w-4xl mx-auto mb-24"
+            className="text-center max-w-4xl mx-auto mb-16 sm:mb-24"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent-500/30 bg-accent-500/10 mb-8 backdrop-blur-md">
               <Target className="w-4 h-4 text-accent-400" aria-hidden="true" />
@@ -102,13 +102,13 @@ export default function MarketOpportunity() {
                 Market Opportunity
               </span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-bold font-bungee leading-[0.9] mb-8">
+            <h2 className="text-[clamp(2.75rem,12vw,4.5rem)] md:text-7xl font-bold font-bungee leading-[0.95] mb-8">
               The Future of <br />{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-400 to-gray-600">
                 Global Finance
               </span>
             </h2>
-            <p className="text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base sm:text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto">
               We&apos;re building the infrastructure for borderless finance,
               serving a $45T market with innovative technology and global reach.
             </p>

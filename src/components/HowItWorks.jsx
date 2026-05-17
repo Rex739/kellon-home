@@ -39,7 +39,7 @@ const steps = [
 const HowItWorks = () => {
   return (
     <section
-      className="w-full py-24 relative overflow-hidden flex items-center"
+      className="w-full py-20 sm:py-24 relative overflow-hidden flex items-center"
       id="how-it-works"
     >
       {/* --- BACKGROUND FX --- */}
@@ -58,7 +58,7 @@ const HowItWorks = () => {
         <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-accent-500/10 rounded-full blur-[120px] mix-blend-screen" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center relative z-10">
         {/* --- LEFT: INTERACTIVE CARD --- */}
         <motion.div
           className="relative flex justify-center lg:justify-end"
@@ -71,17 +71,13 @@ const HowItWorks = () => {
           <div className="absolute top-6 left-6 w-full h-full bg-primary-600/20 rounded-[2.5rem] blur-xl transform rotate-3" />
 
           {/* Main Glass Card: Lighter bg (Primary-700/30) for contrast */}
-          <div className="relative w-full max-w-md bg-primary-700/30 backdrop-blur-2xl border border-primary-400/20 rounded-[2rem] shadow-[0_20px_50px_rgba(12,18,42,0.5)] overflow-hidden p-8 sm:p-10 ring-1 ring-white/10">
+          <div className="relative w-full max-w-md bg-primary-700/30 backdrop-blur-2xl border border-primary-400/20 rounded-[1.75rem] sm:rounded-[2rem] shadow-[0_20px_50px_rgba(12,18,42,0.5)] overflow-hidden p-6 sm:p-10 ring-1 ring-white/10">
             {/* Header inside card */}
             <div className="mb-8 flex items-center justify-between">
               <h3 className="text-2xl font-bold text-white font-bungee tracking-tight">
                 System Flow
               </h3>
-              <div className="flex gap-2 opacity-100">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
-                <div className="w-2.5 h-2.5 rounded-full bg-accent-400 shadow-[0_0_8px_rgba(250,204,21,0.6)]" />
-                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
-              </div>
+            
             </div>
 
             {/* Timeline Container */}
@@ -108,7 +104,7 @@ const HowItWorks = () => {
             Simplified Experience
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight font-bungee drop-shadow-lg">
+          <h2 className="text-[clamp(2.25rem,10vw,3rem)] md:text-5xl font-bold text-white mb-6 leading-tight font-bungee drop-shadow-lg">
             From Sign-Up to <br />
             {/* High contrast gradient */}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-300 via-accent-400 to-white">

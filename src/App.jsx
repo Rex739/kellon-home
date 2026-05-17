@@ -1,21 +1,22 @@
-import React, { useEffect } from "react"
+import React, { Suspense, lazy, useEffect, useState } from "react"
 import { Routes, Route, useLocation } from "react-router-dom"
 import Header from "./components/Header"
 import Hero from "./components/Hero"
-import Partners from "./components/Partners"
-import Features from "./components/Features"
+import LoadingScreen from "./components/LoadingScreen"
 
-import Traction from "./components/Traction"
-import About from "./components/About"
-import Footer from "./components/Footer"
-import PrivacyPolicy from "./components/PrivacyPolicy"
-import TermsOfUse from "./components/TermsOfUse"
-import Disclaimer from "./components/Disclaimer"
-import HowItWorks from "./components/HowItWorks"
-import FAQ from "./components/FAQ"
-
-import MarketOpportunity from "./components/market/MarketOpportunity"
-import ParallaxSection from "./components/ParralaxSection"
+const Features = lazy(() => import("./components/Features"))
+const HowItWorks = lazy(() => import("./components/HowItWorks"))
+const MarketOpportunity = lazy(() =>
+  import("./components/market/MarketOpportunity")
+)
+const Traction = lazy(() => import("./components/Traction"))
+const ParallaxSection = lazy(() => import("./components/ParralaxSection"))
+const About = lazy(() => import("./components/About"))
+const FAQ = lazy(() => import("./components/FAQ"))
+const Footer = lazy(() => import("./components/Footer"))
+const PrivacyPolicy = lazy(() => import("./components/PrivacyPolicy"))
+const TermsOfUse = lazy(() => import("./components/TermsOfUse"))
+const Disclaimer = lazy(() => import("./components/Disclaimer"))
 
 
 // Home page component
@@ -64,27 +65,75 @@ const HomePage = () => {
       <Header />
       <main>
         <Hero />
-        <Features />
-        <HowItWorks />
-        <MarketOpportunity />
-        <Traction />
-        <ParallaxSection />
-        <About />
-        <FAQ />
+        <Suspense fallback={<LoadingScreen inline />}>
+          <Features />
+          <HowItWorks />
+          <MarketOpportunity />
+          <Traction />
+          <ParallaxSection />
+          <About />
+          <FAQ />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={<LoadingScreen inline />}>
+        <Footer />
+      </Suspense>
     </div>
   )
 }
 
 function App() {
+  const [isBooting, setIsBooting] = useState(true)
+  const [showLoader, setShowLoader] = useState(true)
+
+  useEffect(() => {
+    const startedAt = Date.now()
+    const minDuration = 650
+    const maxDuration = 1800
+
+    const finish = () => {
+      const remaining = Math.max(0, minDuration - (Date.now() - startedAt))
+      window.setTimeout(() => setIsBooting(false), remaining)
+    }
+
+    const maxTimer = window.setTimeout(() => setIsBooting(false), maxDuration)
+
+    Promise.allSettled([
+      document.fonts?.ready ?? Promise.resolve(),
+      new Promise((resolve) => {
+        if (document.readyState === "complete") {
+          resolve()
+          return
+        }
+        window.addEventListener("load", resolve, { once: true })
+      }),
+    ]).then(() => {
+      window.clearTimeout(maxTimer)
+      finish()
+    })
+
+    return () => window.clearTimeout(maxTimer)
+  }, [])
+
+  useEffect(() => {
+    if (isBooting) return undefined
+
+    const removeTimer = window.setTimeout(() => setShowLoader(false), 450)
+    return () => window.clearTimeout(removeTimer)
+  }, [isBooting])
+
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-      <Route path="/terms-of-use" element={<TermsOfUse />} />
-      <Route path="/disclaimer" element={<Disclaimer />} />
-    </Routes>
+    <>
+      {showLoader && <LoadingScreen hidden={!isBooting} />}
+      <Suspense fallback={<LoadingScreen inline />}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-use" element={<TermsOfUse />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
+        </Routes>
+      </Suspense>
+    </>
   )
 }
 

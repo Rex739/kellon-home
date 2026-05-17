@@ -45,11 +45,12 @@ export default {
       },
 
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Manrope", "system-ui", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
         manrope: ["Manrope", "sans-serif"],
-        BBH: ["BBH Sans Bartle", "sans-serif"],
-        bungee: ["Bungee", "sans-serif"],
+        bbh: ["BBH Sans Bartle", "Manrope", "sans-serif"],
+        BBH: ["BBH Sans Bartle", "Manrope", "sans-serif"],
+        bungee: ["Bungee", "Manrope", "sans-serif"],
       },
 
       screens: {

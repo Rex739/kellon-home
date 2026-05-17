@@ -1,9 +1,8 @@
 import React, { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { Mail, Github, Linkedin, ArrowRight, Send, MapPin } from "lucide-react"
+import { Mail, Github, Linkedin, ArrowRight, MapPin } from "lucide-react"
 import SuccessModal from "./SuccessModal"
 import { XIcon } from "../lib/icons/LucideIcons"
-import { waitlistService } from "../lib/services/firebase"
 
 const Footer = () => {
   const [email, setEmail] = useState("")
@@ -23,6 +22,7 @@ const Footer = () => {
     setIsSubmitting(true)
 
     try {
+      const { waitlistService } = await import("../lib/services/firebase")
       const exists = await waitlistService.checkEmailExists(email)
 
       if (exists) {
@@ -66,7 +66,7 @@ const Footer = () => {
 
   return (
     <footer
-      className="bg-primary-800 border-t border-white/5 relative overflow-hidden pt-20 pb-10"
+      className="bg-primary-800 border-t border-white/5 relative overflow-hidden pt-16 sm:pt-20 pb-10 scroll-mt-28"
       id="contact"
     >
       {/* --- BACKGROUND LAYERS --- */}
@@ -84,26 +84,26 @@ const Footer = () => {
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-accent-900/10 blur-[120px] rounded-full mix-blend-screen" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
         {/* --- 1. MEGA WAITLIST CARD --- */}
-        <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-white/5 p-8 md:p-16 text-center mb-24 group">
+        <div className="relative rounded-[1.75rem] sm:rounded-[2.5rem] overflow-hidden border border-white/10 bg-white/5 p-5 sm:p-8 md:p-16 text-center mb-16 sm:mb-24 group">
           {/* Internal Glow */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
           <div className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px] opacity-20 pointer-events-none" />
 
           <div className="relative z-10 max-w-2xl mx-auto">
-            <h3 className="text-4xl md:text-5xl font-bold text-white mb-6 font-bungee tracking-tight">
+            <h3 className="text-[clamp(1.15rem,5.8vw,3rem)] sm:text-[clamp(2rem,8vw,3rem)] md:text-5xl font-bold text-white mb-5 sm:mb-6 font-bungee tracking-tight leading-tight">
               Ready to go <span className="text-accent-500">borderless?</span>
             </h3>
-            <p className="text-xl text-gray-400 mb-10 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-gray-400 mb-8 sm:mb-10 leading-relaxed">
               Join the early adopters shaping the future of global finance. Get
               early access, exclusive updates, and priority onboarding.
             </p>
 
             {/* Input Field */}
-            <div className="relative max-w-md mx-auto group/input">
+            <div className="relative max-w-md w-full mx-auto group/input">
               <div className="absolute inset-0 bg-accent-500/20 blur-xl rounded-full opacity-0 group-hover/input:opacity-100 transition-opacity duration-500" />
-              <div className="relative flex items-center bg-black/50 border border-white/10 rounded-full p-2 pl-6 focus-within:border-accent-500/50 focus-within:bg-black/80 transition-all duration-300">
+              <div className="relative flex items-center gap-2 bg-black/50 border border-white/10 rounded-full p-2 pl-4 sm:pl-6 focus-within:border-accent-500/50 focus-within:bg-black/80 transition-all duration-300">
                 <input
                   type="email"
                   value={email}
@@ -112,12 +112,13 @@ const Footer = () => {
                     setError("")
                   }}
                   placeholder="Enter your email address"
-                  className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none font-medium"
+                  className="min-w-0 w-full flex-1 bg-transparent text-sm sm:text-base text-white placeholder-gray-500 outline-none font-medium"
                 />
                 <button
                   onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="p-3 bg-accent-500 hover:bg-accent-400 text-black rounded-full transition-transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="shrink-0 p-3 bg-accent-500 hover:bg-accent-400 text-black rounded-full transition-transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-label="Join the waitlist"
                 >
                   {isSubmitting ? (
                     <div className="animate-spin h-5 w-5 border-2 border-black border-t-transparent rounded-full" />
@@ -134,7 +135,7 @@ const Footer = () => {
         </div>
 
         {/* --- 2. LINKS GRID --- */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 border-t border-white/10 pt-16 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 border-t border-white/10 pt-12 sm:pt-16 pb-12">
           {/* Brand Column (Span 4) */}
           <div className="md:col-span-4 flex flex-col items-start gap-6">
             <div

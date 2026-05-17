@@ -40,12 +40,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kellon - Borderless Payments. Global Investments. One Wallet</title>
     <meta name="description" content="Kellon Mobile enables borderless payments and global investments through one powerful financial platform. Break financial barriers with seamless cross-border transactions." />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      (function () {
+        var redirectPath = sessionStorage.getItem("kellon:redirect")
+        if (!redirectPath) return
+        sessionStorage.removeItem("kellon:redirect")
+        if (redirectPath !== window.location.pathname + window.location.search + window.location.hash) {
+          window.history.replaceState(null, "", redirectPath)
+        }
+      })()
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

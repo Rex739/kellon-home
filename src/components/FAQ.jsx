@@ -85,7 +85,7 @@ const SectionHeader = memo(({ smoothProgress }) => {
       style={{ y: headerY, opacity: headerOpacity }}
       className="text-center mb-20 will-change-[transform,opacity]"
     >
-      <h2 className="text-4xl md:text-6xl font-bold text-white font-bungee leading-tight">
+      <h2 className="text-[clamp(2.25rem,10vw,3.75rem)] md:text-6xl font-bold text-white font-bungee leading-tight">
         Most <span className="text-accent-400">frequently</span> <br />
         asked questions.
       </h2>
@@ -260,12 +260,12 @@ export default function FAQ() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full py-24 bg-black overflow-hidden"
+      className="relative w-full py-20 sm:py-24 bg-black overflow-hidden"
       aria-labelledby="faq-heading"
     >
       <BackgroundEffects smoothProgress={smoothProgress} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
         <div id="faq-heading">
           <SectionHeader smoothProgress={smoothProgress} />
         </div>

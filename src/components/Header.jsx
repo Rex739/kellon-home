@@ -58,8 +58,8 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-6 left-0 right-0 z-[100] flex justify-center px-6">
-        <div className="w-full max-w-7xl bg-primary-1000/50 backdrop-blur-md border border-accent-500/20 rounded-2xl px-6 py-3 flex items-center justify-between shadow-2xl">
+      <header className="fixed top-3 sm:top-6 left-0 right-0 z-[100] flex justify-center px-4 sm:px-6">
+        <div className="w-full max-w-7xl bg-primary-1000/50 backdrop-blur-md border border-accent-500/20 rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between shadow-2xl">
           {/* Logo */}
           <Link
             to="/"
@@ -137,7 +137,7 @@ export default function Header() {
                   <a
                     href={`#${link.id}`}
                     onClick={(e) => handleMobileLink(e, link.id)}
-                    className="text-5xl font-bold text-white tracking-tighter flex items-center gap-4 group"
+                    className="text-4xl sm:text-5xl font-bold text-white tracking-tighter flex items-center gap-4 group"
                   >
                     {link.label}
                     <ArrowUpRight
