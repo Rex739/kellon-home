@@ -209,6 +209,30 @@
   animation: loader-bar 1.1s ease-in-out infinite;
 }
 
+.legal-copy p {
+  color: rgb(209 213 219);
+}
+
+.legal-copy strong,
+.legal-copy h4 {
+  color: #fff;
+}
+
+.legal-copy ul {
+  color: rgb(209 213 219);
+}
+
+.legal-copy [class*="border-l-4"] {
+  border-left-width: 0;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.legal-copy [class*="group-hover/item:scale-150"] {
+  transition: transform 200ms ease;
+}
+
 @keyframes loader-bar {
   0% {
     transform: translateX(-110%);

@@ -43,6 +43,16 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      (function () {
+        var redirectPath = sessionStorage.getItem("kellon:redirect")
+        if (!redirectPath) return
+        sessionStorage.removeItem("kellon:redirect")
+        if (redirectPath !== window.location.pathname + window.location.search + window.location.hash) {
+          window.history.replaceState(null, "", redirectPath)
+        }
+      })()
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
