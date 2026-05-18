@@ -6,7 +6,7 @@ import { ArrowRight, Star, Globe, Shield, Zap } from "lucide-react"
 const headlines = [
   "Borderless Payments",
   "Crypto–Native Global Investments",
-  "One Non–Custodial Wallet",
+  "One Wallet",
 ]
 
 const images = [
@@ -50,6 +50,7 @@ export default function Hero() {
     const onScroll = () => {
       if (frameRef.current) return
 
+      // @ts-ignore
       frameRef.current = window.requestAnimationFrame(() => {
         frameRef.current = null
 
