@@ -17,7 +17,6 @@ import {
   Target,
   Eye,
 } from "lucide-react"
-
 // --- STATIC DATA ---
 const VALUES = [
   {
