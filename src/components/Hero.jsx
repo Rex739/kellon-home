@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowRight, Star, Globe, Shield, Zap } from "lucide-react"
+import { ArrowRight, Star, Globe, Shield, Zap, Mouse } from "lucide-react"
 
 // --- DATA ---
 const headlines = [
@@ -257,6 +257,41 @@ export default function Hero() {
           </div>
           )}
         </div>
+
+        <motion.div
+          className="pointer-events-none absolute bottom-6 left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex"
+          aria-label="Scroll to reveal more app screens"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.1, duration: 0.45 }}
+        >
+          <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-2 text-white/70 shadow-2xl backdrop-blur-md">
+            <motion.span
+              animate={{ y: [0, 4, 0] }}
+              transition={{
+                duration: 1.6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="grid place-items-center"
+              aria-hidden="true"
+            >
+              <Mouse size={18} strokeWidth={1.8} />
+            </motion.span>
+            <div className="flex gap-1" aria-hidden="true">
+              {images.map((_, i) => (
+                <span
+                  key={i}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === currentImage
+                      ? "w-4 bg-accent-400"
+                      : "w-1.5 bg-white/35"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   )
